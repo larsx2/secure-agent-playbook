@@ -1,6 +1,6 @@
 # Securable Generation — Full Loop Play
 
-> **Status:** Stub. This play is referenced by the `securability-engineering` skill in **Full Loop Mode**. Real content is deferred to a follow-up PR.
+Follow the bundled skill references below when a peer skill is not separately installed; they are links to the canonical skill procedures, not independent copies to maintain.
 
 ## Intent
 
@@ -12,21 +12,21 @@ In **Default Mode**, the `securability-engineering` skill alone handles single-s
 
 ## Procedure
 
-TODO — formalize the loop. High-level shape:
+Complete each stage before advancing; retain unmet requirements and unresolved review evidence in the final report.
 
-1. **PRD enhancement** — invoke `prd-securability-enhancement` to add explicit ASVS controls and SSEM acceptance criteria to the incoming feature/spec.
-2. **Generation** — invoke `securability-engineering` (Default Mode) with the enhanced PRD as input. Apply SSEM constraints and emit a Securability Notes block.
-3. **Review** — invoke `securability-engineering-review` to score the generated code against the SSEM rubric and produce findings.
+1. **PRD enhancement** — follow `references/prd-securability-enhancement.md` to add explicit ASVS controls and SSEM acceptance criteria to the incoming feature/spec. Finish with the level decision and feature coverage matrix.
+2. **Generation** — follow `references/securability-engineering.md` (Default Mode) with the enhanced PRD as input. Apply SSEM constraints and emit a Securability Notes block; do not recursively invoke Full Loop Mode.
+3. **Review** — follow `references/securability-engineering-review.md` to score the generated code against the SSEM rubric and produce evidence-backed findings.
 4. **Enhancement pass** — feed review findings back to `securability-engineering` for a remediation iteration. Bounded retries (default: 1 pass).
 5. **Report** — emit a consolidated artifact: enhanced PRD + final code + SSEM scorecard + remediation diff.
 
 ## Output
 
-TODO — define the consolidated report shape. Likely a single markdown bundle with sections: Requirements (post-enhancement), Generated Code, SSEM Scorecard, Remediation Notes.
+Emit Requirements (enhanced PRD and ASVS matrix), Generated Code (changed files), SSEM Scorecard, and Remediation Notes (findings addressed, diff and remaining gaps). Report only authorized checks actually performed; unverified controls remain unassessed, not passed.
 
 ## References
 
-- Triggering skill: [`plugins/code-security-skills/skills/securability-engineering/SKILL.md`](../skills/securability-engineering/SKILL.md)
-- Dependent skills: `prd-securability-enhancement`, `securability-engineering-review`
+- Generation procedure: `references/securability-engineering.md`
+- Dependent procedures: `references/prd-securability-enhancement.md`, `references/securability-engineering-review.md`
 - FIASSE v1.0.4: `data/fiasse/` (foundational principles + SSEM attributes)
 - OWASP ASVS v5.0: `data/asvs/`

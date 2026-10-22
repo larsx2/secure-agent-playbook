@@ -2,7 +2,7 @@
 
 Step-by-step runbook for executing an SSEM-scored review.
 
-> **Source of truth**: [plugins/code-security-skills/skills/securability-engineering-review/SKILL.md](../../plugins/code-security-skills/skills/securability-engineering-review/SKILL.md) defines the rubric, equal-weight scoring (1/3 per pillar; 1/4 within Maintainability; 1/3 within Trustworthiness and Reliability), severity classification, output format, and 50-item checklist. This play does not redefine them — it sequences the work.
+> **Source of truth**: [securability-engineering-review](../references/securability-engineering-review.md) defines the rubric, equal-weight scoring (1/3 per pillar; 1/4 within Maintainability; 1/3 within Trustworthiness and Reliability), severity classification, output format, and 50-item checklist. This play does not redefine them — it sequences the work.
 
 ## Trigger Conditions
 
@@ -109,10 +109,10 @@ Use the severity table in the skill — engineering-impact based, not CVSS. Seve
 Use the output format and checklist defined in the skill:
 
 - **Part 1**: SSEM Score Summary (overall, pillars, attribute breakdown tables, top 3 strengths, top 3 improvements)
-- **Part 2**: Detailed Findings per pillar (use [templates/finding.md](../../templates/finding.md) for individual findings)
+- **Part 2**: Detailed Findings per pillar (use [templates/finding.md](../templates/finding.md) for individual findings)
 - **Part 3**: 50-item Evaluation Checklist (Maintainability 20, Trustworthiness 15, Reliability 15)
 
-Use [templates/report.md](../../templates/report.md) as the assembly scaffold.
+Before review, apply the [assessment contract](../templates/report.md#assessment-contract); use that report scaffold alongside the SSEM scorecard.
 
 ## Quality Gates
 
@@ -126,9 +126,9 @@ Use [templates/report.md](../../templates/report.md) as the assembly scaffold.
 
 ## References
 
-- [plugins/code-security-skills/skills/securability-engineering-review/SKILL.md](../../plugins/code-security-skills/skills/securability-engineering-review/SKILL.md) — rubric, weights, severity, output format, 50-item checklist, pattern tags, anti-patterns
-- [templates/finding.md](../../templates/finding.md) — individual finding shape
-- [templates/report.md](../../templates/report.md) — full-report scaffold
+- [securability-engineering-review](../references/securability-engineering-review.md) — rubric, weights, severity, output format, 50-item checklist, pattern tags, anti-patterns
+- [templates/finding.md](../templates/finding.md) — individual finding shape
+- [templates/report.md](../templates/report.md) — full-report scaffold
 - [FIASSE Framework v1.0.4](https://github.com/OWASP/FIASSE/blob/v1.0.4/docs/securable_framework.md)
 - ISO/IEC 25010:2011 — Software quality models
 - RFC 4949 — Internet Security Glossary

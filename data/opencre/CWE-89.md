@@ -1,7 +1,7 @@
 ---
 title: "CWE-89 SQL Injection"
 cwe_id: "CWE-89"
-owasp_top10: "A03:2021 Injection"
+owasp_top10: "A05:2025 Injection"
 opencre_mappings:
   - cre_id: "064-808"
     cre_name: "Encode output context-specifically"
@@ -32,7 +32,7 @@ summary: "SQL injection occurs when untrusted data is sent to a database interpr
 ## Cross-Standard References
 
 Via OpenCRE 732-873:
-- **ASVS**: V5.3.4 — Verify parameterized queries or ORM usage
+- **ASVS v5.0.0 equivalent**: [V1.2.4](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x10-V1-Encoding-and-Sanitization.md#v12-injection-prevention) — Parameterized queries, ORMs or equivalent database-injection defenses (verified against the tagged standard; do not reuse the older V5.3.4 ID returned by historical mappings)
 - **WSTG**: WSTG-INPV-05 — Testing for SQL Injection
 - **OWASP Cheat Sheet**: SQL Injection Prevention
 - **NIST 800-53**: SI-10 — Information Input Validation

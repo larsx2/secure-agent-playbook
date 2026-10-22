@@ -8,11 +8,13 @@ license: CC-BY-4.0
 
 Detect hardcoded secrets by following the full procedure in `plays/secrets-scan.md`.
 
+Apply the Assessment Contract in `templates/report.md`; credential verification requires separate authorization.
+
 ## Steps
 
 1. **Run Automated Scanner** — Use available tools in preference order:
-   - `trufflehog filesystem --directory=<path> --json` (recommended)
-   - `trufflehog git file://<repo> --json` (includes git history)
+   - `trufflehog filesystem --directory=<path> --json --no-verification` (recommended)
+   - `trufflehog git file://<repo> --json --no-verification` (includes git history)
    - `gitleaks detect --source=<path> --report-format=json`
    - `detect-secrets scan <path> --all-files`
    - If no scanner available, proceed with manual pattern analysis.
@@ -27,7 +29,7 @@ Detect hardcoded secrets by following the full procedure in `plays/secrets-scan.
 
 4. **Check Preventive Controls** — Verify: `.gitignore` covers sensitive files, pre-commit hooks for secret scanning, CI pipeline scanning, secrets management documentation.
 
-**Important**: Never include actual secret values in findings. Show redacted versions only (e.g., `AKIA****EXAMPLE`). Active production secrets require immediate rotation.
+**Important**: Never include actual secret values in findings. Show redacted versions only (e.g., `AKIA****EXAMPLE`). Exposed real secrets require revocation/rotation, including historical and non-production credentials; history cleanup alone is insufficient.
 
 ## Output
 
@@ -35,6 +37,6 @@ Scan summary, findings using `templates/finding.md`, preventive controls checkli
 
 ## OWASP References
 
-- A07:2021: Identification and Authentication Failures
+- A07:2025: Authentication Failures
 - CWE-798: Use of Hard-coded Credentials
 - CWE-312: Cleartext Storage of Sensitive Information

@@ -18,14 +18,16 @@ Use this skill when:
 
 ## Procedure
 
+Before reviewing, apply the [assessment contract](../templates/report.md#assessment-contract). Credential validation is an active test requiring separate authorization; disable scanner verification by default.
+
 ### 1. Run Automated Scanner
 
 Use available tools in order of preference:
 
 1. **trufflehog** (recommended — scans current files + git history):
    ```bash
-   trufflehog filesystem --directory=<path> --json
-   trufflehog git file://<repo_path> --json  # includes git history
+   trufflehog filesystem --directory=<path> --json --no-verification
+   trufflehog git file://<repo_path> --json --no-verification  # includes git history
    ```
 
 2. **gitleaks** (git-aware scanning):
@@ -135,12 +137,12 @@ Verify that the project has:
 ## Important Notes
 
 - **Never include the actual secret value in findings.** Show a redacted version: `AKIA****EXAMPLE`
-- If active production secrets are found, flag this as requiring **immediate rotation** — the secret must be assumed compromised once it's been in version control
-- Historical secrets in git history remain accessible even after deletion from current files — git history rewriting or rotation is required
+- Treat exposed real secrets as compromised: revoke or rotate them immediately through the owner, including historical and non-production credentials. Replacement in a later commit does not prove the old credential was revoked.
+- Remove the secret from current files and, when separately authorized and coordinated, clean history/caches/artifacts. History rewriting alone cannot revoke copies and is never a substitute for revocation/rotation. Review access logs for misuse without disclosing secret values.
 
 ## OWASP References
 
-- **A07:2021** — Identification and Authentication Failures
+- **A07:2025** — Authentication Failures
 - **CWE-798** — Use of Hard-coded Credentials
 - **CWE-312** — Cleartext Storage of Sensitive Information
 - OWASP Cheat Sheet: Secrets Management

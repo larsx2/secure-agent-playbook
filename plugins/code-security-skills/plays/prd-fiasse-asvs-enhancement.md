@@ -1,6 +1,6 @@
 # PRD FIASSE / ASVS Enhancement — Step-by-Step Runbook
 
-> **Status:** Stub. This play is referenced by the `prd-securability-enhancement` skill as the detailed runbook. Real content is deferred to a follow-up PR; the SKILL.md itself currently carries the full procedure inline.
+The authoritative mapping, gap patterns and output templates live in `references/prd-securability-enhancement.md` (the bundled canonical skill). Read it before applying this sequence.
 
 ## Intent
 
@@ -10,7 +10,7 @@ The goal is to upgrade the requirements artifact so delivery teams build securab
 
 ## Procedure
 
-TODO — extract the step-by-step procedure currently embedded in the `prd-securability-enhancement` SKILL.md into this file. High-level shape:
+Use the detailed steps and completion checks in the authoritative procedure:
 
 1. **Parse features** — normalize each feature with actor, data sensitivity, trust boundaries, and existing acceptance criteria.
 2. **Choose ASVS level** — recommend or accept Level 1/2/3 per feature based on data sensitivity and exposure.
@@ -21,11 +21,11 @@ TODO — extract the step-by-step procedure currently embedded in the `prd-secur
 
 ## Output
 
-TODO — define the enhanced PRD artifact shape.
+Emit the procedure's ASVS Level Decision, Feature Coverage Matrix, Enhanced Feature Specifications, Cross-Cutting Requirements, and Open Gaps/Assumptions. Preserve existing functional intent; separate product policies from verified ASVS requirements and implemented-control evidence from PRD coverage.
 
 ## References
 
-- Triggering skill: [`plugins/code-security-skills/skills/prd-securability-enhancement/SKILL.md`](../skills/prd-securability-enhancement/SKILL.md)
+- Authoritative procedure and templates: `references/prd-securability-enhancement.md`
 - OWASP ASVS v5.0 chapter index: `data/asvs/README.md`
 - OWASP ASVS v5.0 chapters: `data/asvs/V*.md`
 - FIASSE v1.0.4 foundational principles: `data/fiasse/S2.1.md`–`S2.6.md`

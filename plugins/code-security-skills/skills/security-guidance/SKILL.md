@@ -13,6 +13,8 @@ Security is a first-class requirement. Before completing any plan or producing a
 
 ## Workflow
 
+When assessing existing controls rather than implementing them, first apply the Assessment Contract in `templates/report.md`. Cite [ASVS v5.0.0](https://github.com/OWASP/ASVS/tree/v5.0.0/5.0/en) and keep unverified runtime controls not-assessed; guidance is not a compliance certificate.
+
 1. **Identify relevant sections** — Match the current task against the `When to use:` triggers in the index below. A task may match multiple sections; apply all of them.
 2. **Read the reference file** — For each matched section, read the full reference file listed at the end of its index entry to get the complete verification requirements.
 3. **Apply the guidance** — Implement the requirements. Default to the most secure option when the requirements allow choice. Apply all Level 1 requirements as a minimum baseline; note any Level 2 or Level 3 requirements that are relevant but not yet implemented.

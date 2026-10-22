@@ -21,6 +21,8 @@ Use this skill when:
 
 ## Procedure
 
+Before reviewing, read and apply the [assessment contract](../templates/report.md#assessment-contract). Use its scope, evidence, authorization and coverage ledger alongside the summary below.
+
 ### 1. Scope & Context
 
 Before diving in, establish:
@@ -33,9 +35,9 @@ Before diving in, establish:
 
 Review in priority order — highest-impact classes first:
 
-#### A. Injection (CWE-74, OWASP A03, [OpenCRE 161-451](https://www.opencre.org/cre/161-451))
+#### A. Injection (CWE-74, OWASP A05:2025, [OpenCRE 161-451](https://www.opencre.org/cre/161-451))
 
-> ASVS refs: `data/asvs/V12.1.md` (Input Validation), `data/asvs/V13.1.md` (Output Encoding), `data/asvs/V5.3.md` (File Storage)
+> ASVS refs: `data/asvs/V2.2.md` (Input Validation), `data/asvs/V1.2.md` (Injection Prevention / Output Encoding), `data/asvs/V5.3.md` (File Storage)
 
 | Subtype | What to Look For |
 |---------|-----------------|
@@ -50,7 +52,7 @@ Review in priority order — highest-impact classes first:
 
 #### B. Authentication & Session (CWE-287, OWASP A07, [OpenCRE 633-428](https://www.opencre.org/cre/633-428))
 
-> ASVS refs: `data/asvs/V2.1.md`–`V2.4.md` (Authentication), `data/asvs/V3.1.md`–`V3.7.md` (Session Management)
+> ASVS refs: `data/asvs/V6.1.md`–`V6.8.md` (Authentication), `data/asvs/V7.1.md`–`V7.6.md` (Session Management)
 
 - Hardcoded credentials or API keys
 - Missing authentication on endpoints
@@ -62,7 +64,7 @@ Review in priority order — highest-impact classes first:
 
 #### C. Authorization (CWE-862, OWASP A01, [OpenCRE 724-770](https://www.opencre.org/cre/724-770))
 
-> ASVS refs: `data/asvs/V4.1.md`–`V4.4.md` (Access Control)
+> ASVS refs: `data/asvs/V8.1.md`–`V8.4.md` (Authorization)
 
 - Missing authorization checks on endpoints or functions
 - IDOR: object references without ownership validation
@@ -71,9 +73,9 @@ Review in priority order — highest-impact classes first:
 - Missing RBAC/ABAC enforcement
 - Direct database queries that don't filter by user/tenant
 
-#### D. Cryptography (CWE-327, OWASP A02, [OpenCRE 278-646](https://www.opencre.org/cre/278-646))
+#### D. Cryptography (CWE-327, OWASP A04:2025, [OpenCRE 278-646](https://www.opencre.org/cre/278-646))
 
-> ASVS refs: `data/asvs/V6.1.md`–`V6.8.md` (Cryptography)
+> ASVS refs: `data/asvs/V11.1.md`–`V11.7.md` (Cryptography), `data/asvs/V12.1.md`–`V12.3.md` (Secure Communication)
 
 - Weak algorithms: MD5, SHA1 for passwords, DES, RC4
 - ECB mode usage
@@ -85,7 +87,7 @@ Review in priority order — highest-impact classes first:
 
 #### E. Data Exposure (CWE-200, OWASP A01, [OpenCRE 126-668](https://www.opencre.org/cre/126-668))
 
-> ASVS refs: `data/asvs/V8.1.md`–`V8.4.md` (Data Protection), `data/asvs/V7.1.md`–`V7.6.md` (Error Handling & Logging)
+> ASVS refs: `data/asvs/V14.1.md`–`V14.3.md` (Data Protection), `data/asvs/V16.1.md`–`V16.5.md` (Security Logging & Error Handling)
 
 - Sensitive data in error messages or stack traces
 - Verbose logging of requests/responses containing PII
@@ -94,9 +96,9 @@ Review in priority order — highest-impact classes first:
 - API responses including more fields than necessary
 - Debug mode enabled in production configs
 
-#### F. Security Misconfiguration (OWASP A05, [OpenCRE 233-748](https://www.opencre.org/cre/233-748))
+#### F. Security Misconfiguration (OWASP A02:2025, [OpenCRE 233-748](https://www.opencre.org/cre/233-748))
 
-> ASVS refs: `data/asvs/V10.1.md`–`V10.7.md` (Configuration)
+> ASVS refs: `data/asvs/V13.1.md`–`V13.4.md` (Configuration)
 
 - Default credentials or configurations
 - Unnecessary features enabled (debug endpoints, admin panels)
@@ -107,12 +109,37 @@ Review in priority order — highest-impact classes first:
 
 #### G. Deserialization & Data Integrity (CWE-502, OWASP A08, [OpenCRE 854-643](https://www.opencre.org/cre/854-643))
 
-> ASVS refs: `data/asvs/V11.1.md`–`V11.7.md` (Business Logic)
+> ASVS refs: `data/asvs/V1.5.md` (Safe Deserialization), `data/asvs/V2.3.md` (Business Logic Security), `data/asvs/V3.5.md` (Browser Origin Separation)
 
 - Deserializing untrusted data (unsafe deserialization in any language — Python, Java, PHP, Ruby, .NET)
 - Missing integrity checks on data from untrusted sources
 - Unsigned cookies or tokens
 - Missing CSRF protection on state-changing operations
+
+
+#### H. Software Supply Chain (OWASP A03:2025)
+
+> ASVS refs: `data/asvs/V15.2.md` (Security Architecture and Dependencies)
+
+- Inventory direct/transitive dependencies, build tools, registries and CI/CD trust boundaries; follow `plays/sca-audit.md`.
+- Review lockfile provenance, install scripts, dependency confusion, update verification, build credentials and artifact publication permissions. A clean advisory scan does not establish supply-chain integrity.
+
+#### I. Insecure Design (OWASP A06:2025)
+
+> ASVS refs: `data/asvs/V2.3.md`, `data/asvs/V2.4.md`
+
+- Trace business invariants through multi-step workflows, concurrent requests, quotas and recovery paths; check server-owned prices, ownership and tenant scope.
+
+#### J. Logging and Exceptional Conditions (OWASP A09:2025, A10:2025)
+
+> ASVS refs: `data/asvs/V16.2.md`–`V16.5.md`, `data/asvs/V15.3.md`, `data/asvs/V15.4.md`
+
+- Review security-event logging, tamper protection, actionable alerts and response ownership.
+- Trace errors, timeouts, resource exhaustion and partial failures: fail closed, roll back partial transactions, release resources, bound retries and preserve authorization on fallback paths.
+
+#### K. Server-Side Request Forgery (OWASP A01:2025)
+
+- Trace user-influenced outbound requests, including webhooks and redirects. Check egress policy, allowed destinations, all IPv4/IPv6 answers and DNS check/use races; URL validation alone is not connection pinning.
 
 ### 3. Framework-Specific Checks
 
@@ -194,8 +221,8 @@ For each issue:
 
 ## References
 
-- OWASP Top 10 (2021): A01-A10
-- OWASP ASVS v5.0 (for verification-level mapping)
+- [OWASP Top 10 (2025)](https://owasp.org/Top10/2025/): A01-A10 (Web; distinct from API Top 10:2023)
+- [OWASP ASVS v5.0.0](https://github.com/OWASP/ASVS/tree/v5.0.0/5.0/en) (for requirement text and verification levels)
 - OWASP Code Review Guide
 - OWASP Cheat Sheet Series (per-topic)
 - OWASP Proactive Controls

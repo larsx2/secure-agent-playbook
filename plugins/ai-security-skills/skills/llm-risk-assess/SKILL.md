@@ -44,7 +44,7 @@ Comprehensive evaluation of LLM applications against OWASP Top 10 for LLM Applic
 Comprehensive LLM security report:
 - Architecture diagram with trust boundaries
 - Risk matrix (all 10 categories with severity/status)
-- Detailed findings with proof-of-concept examples
+- Detailed findings using `templates/finding.md`, with evidence and separately authorized proof-of-concept results
 - Red team test results and bypass techniques
 - Remediation roadmap with code examples
 - Defense validation checklist

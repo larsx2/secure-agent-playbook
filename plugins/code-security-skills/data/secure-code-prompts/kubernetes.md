@@ -14,7 +14,7 @@ threats:
   - missing network policies allowing unrestricted pod communication
   - sensitive host path mounts enabling container escape
 summary: "Security review checklist for Kubernetes manifests and cluster configurations covering pod security, image security, secrets, RBAC, networking, resource constraints, volume mounts, logging, supply chain, and service exposure."
-owasp_references: ["A01:2021", "A02:2021", "A05:2021", "A06:2021"]
+owasp_references: ["A01:2025", "A04:2025", "A02:2025", "A03:2025"]
 ---
 
 # Kubernetes Security Review

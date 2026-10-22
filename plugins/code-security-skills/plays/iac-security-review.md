@@ -18,6 +18,8 @@ Security review procedure for Infrastructure-as-Code configurations including Te
 
 ## Procedure
 
+Before reviewing, apply the [assessment contract](../templates/report.md#assessment-contract), including read-only scope and separate authorization for tools that execute target code or upload configuration.
+
 ### Phase 1: Scope & Context
 
 Establish:

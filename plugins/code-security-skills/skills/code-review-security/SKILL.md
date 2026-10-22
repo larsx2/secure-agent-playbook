@@ -8,18 +8,24 @@ license: CC-BY-4.0
 
 Review code for security vulnerabilities by following the full procedure in `plays/code-review-security.md`.
 
+Before inspection, apply `templates/report.md`'s Assessment Contract for read-only authorization, scope inventory, evidence and ASVS control coverage.
+
 ## Steps
 
 1. **Scope & Context** — Establish language/framework, trust boundary (server/client/library/CLI), data sensitivity (PII, credentials, financial), and exposure (internet-facing, internal, local).
 
 2. **Systematic Review by Vulnerability Class** (priority order):
-   - **Injection (A03)** — SQL, command, XSS, SSTI, LDAP, path traversal, header, log injection
+   - **Injection (A05:2025)** — SQL, command, XSS, SSTI, LDAP, path traversal, header, log injection
    - **Authentication & Session (A07)** — Hardcoded credentials, missing auth, weak sessions, JWT issues
    - **Authorization (A01)** — Missing authz checks, IDOR, horizontal/vertical privilege escalation
-   - **Cryptography (A02)** — Weak algorithms, hardcoded keys, missing encryption, custom crypto
+   - **Cryptography (A04:2025)** — Weak algorithms, hardcoded keys, missing encryption, custom crypto
    - **Data Exposure (A01)** — Sensitive data in errors/logs, credentials in code, debug mode
-   - **Misconfiguration (A05)** — Default credentials, permissive CORS, missing security headers
+   - **Misconfiguration (A02:2025)** — Default credentials, permissive CORS, missing security headers
    - **Deserialization (A08)** — Untrusted deserialization, missing integrity checks, CSRF gaps
+   - **Supply Chain (A03:2025)** — Dependency, build, registry and artifact trust
+   - **Insecure Design (A06:2025)** — Business invariants, workflows, concurrency and anti-automation
+   - **Logging / Exceptional Conditions (A09/A10:2025)** — Actionable alerts, fail-closed errors, resource bounds and recovery
+   - **SSRF (A01:2025)** — Outbound destination policy and connection enforcement
 
 3. **Framework-Specific Checks** — Apply checks for detected framework (React, Express, Django, Flask, Spring, Rails, Go).
 
@@ -33,7 +39,7 @@ Scope summary, findings sorted by severity using `templates/finding.md`, positiv
 
 ## OWASP References
 
-- OWASP Top 10 (2021): A01-A10
+- OWASP Web Top 10 (2025): A01-A10
 - OWASP ASVS v5.0
 - OWASP Code Review Guide
 - OWASP Cheat Sheet Series

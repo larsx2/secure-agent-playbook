@@ -35,4 +35,4 @@ Server overview, tool risk matrix, findings using `templates/finding.md`, and sp
 - LLM05: Improper Output Handling
 - LLM06: Excessive Agency (overpermissioned tools)
 - A01: Broken Access Control
-- A03: Injection
+- A05:2025: Injection (Web Top 10)

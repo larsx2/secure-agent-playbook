@@ -13,10 +13,12 @@ Use this skill when:
 ## Inputs
 
 - Project root directory (must contain dependency manifests and/or lockfiles)
-- (Optional) Severity threshold — minimum severity to report (default: MEDIUM)
-- (Optional) Ignore list — CVEs to suppress (with documented justification)
+- (Optional) Presentation threshold — comprehensive mode includes all severities, unknown severity and unresolved coverage; a user-selected threshold only filters the detailed presentation, with lower-severity/suppressed counts and rationale retained
+- (Optional) Ignore list — CVEs to defer (with documented justification, owner and review date)
 
 ## Procedure
+
+Before reviewing, apply the [assessment contract](../templates/report.md#assessment-contract). Scanners may execute build/resolution hooks or transmit dependency metadata; obtain scope for those operations first.
 
 ### 1. Identify Dependency Manifests
 
@@ -64,13 +66,7 @@ Use available tools in order of preference:
    trivy fs --format json --scanners vuln <project_path>
    ```
 
-If no scanner is installed, **stop and ask the user to install one** rather than attempting manual analysis. Even small projects have 50+ dependencies — manually cross-referencing versions against CVE databases is not cost-effective. Recommend:
-```bash
-# Fastest to install, covers all ecosystems
-brew install osv-scanner    # or: npm install -g osv-scanner
-# Node.js projects already have this
-npm audit --json
-```
+If no suitable scanner is available, continue the read-only manifest/lockfile inventory and source reachability review. Mark advisory matching **not-assessed**, record unsupported ecosystems, unresolved versions and missing tooling/database evidence, and propose an authorized scanner run. Do not present manual inventory as a clean vulnerability scan or install tools automatically.
 
 For manual triage of individual packages, use the [OSV.dev vulnerability database](https://osv.dev/list) to search by package name or CVE.
 
@@ -116,6 +112,8 @@ Beyond CVEs, flag:
 - **Total dependencies**: [N direct, M transitive]
 - **Scanner used**: [tool name and version]
 - **Vulnerabilities found**: [X critical, Y high, Z medium, W low]
+- **Coverage gaps**: [unscanned components, unresolved versions/reachability, unavailable scanner/advisory database]
+- **Presentation filters / deferrals**: [threshold, omitted counts by severity, rationale, owner and review date]
 
 ### Critical & High Findings
 [Standard finding template for each, sorted by severity]
@@ -134,7 +132,7 @@ Beyond CVEs, flag:
 
 ## OWASP References
 
-- **A06:2021** — Vulnerable and Outdated Components
+- **A03:2025** — Software Supply Chain Failures (Web Top 10; advisory matching covers only part of this category)
 - OWASP Dependency-Check
 - OWASP Software Component Verification Standard (SCVS)
 - OWASP Cheat Sheet: Vulnerable Dependency Management

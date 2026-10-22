@@ -20,6 +20,8 @@ Do **not** run when only built artifacts (APK/IPA) are present — flag and stop
 
 ## Procedure
 
+Before reviewing, apply the [assessment contract](../templates/report.md#assessment-contract), retaining the source-only and runtime-evidence caveats below.
+
 ### 1. Scope & Context
 
 Establish:
@@ -57,6 +59,8 @@ Walk the 8 groups in priority order. For each group, load the group overview fro
 
 **Play rule — MASTG cross-references in findings:** Each MASTG test you load may cite other MASTG entities via `@MASTG-<KIND>-####` strings in its body (e.g. `@MASTG-TECH-0056`, `@MASTG-TOOL-0073`). `data/mastg/` extracts only `MASTG-TEST-*` — the other entities (TECH, TOOL, APP, KNOW, BEST, DEMO, …) live upstream only. Surface them per-finding so the reader can follow them at the OWASP MASTG source:
 
+Only MASVS-linked tests and their locally available transitive test references are bundled. A referenced MASTG test/entity absent locally is an intentional upstream lookup at https://mas.owasp.org/MASTG/ or https://github.com/OWASP/mastg, not evidence that the control passed; record unavailable references and runtime recipes as unassessed.
+
 1. While walking the MASTG tests that inform a finding, extract every `@MASTG-([A-Z]+)-(\d+)` from each test body.
 2. Discard any match where `KIND == TEST` — already cited in `OWASP Ref`.
 3. Group the remaining IDs by `KIND` alphabetically and emit a `MASTG references:` bullet on the finding. Within each KIND, sort IDs numerically. Omit the bullet entirely when the informing tests carry no non-TEST refs.
@@ -84,7 +88,7 @@ Do not invent CWE mappings or pick CWEs by visual similarity to the bug — alwa
 
 OpenCRE does not currently treat MASVS as a first-class linked standard the way it treats ASVS, and its mobile-domain coverage is thin. For mobile findings:
 
-- If the CWE cited has an existing pre-mapped entry in `data/opencre/CWE-XXX.md` (13 CWEs pre-mapped today), populate `OpenCRE:` from that file as usual.
+- Optionally resolve the CWE through the external [OpenCRE API](https://www.opencre.org/rest/v1/standard/CWE). Verify the returned standard version; mappings are not bundled.
 - Otherwise, write `OpenCRE: N/A for mobile scan — OpenCRE's MASVS coverage is limited` in the finding. Do **not** instruct reviewers to add new OpenCRE mapping files solely to satisfy a mobile finding — that's contributor overhead with little reader benefit until OpenCRE expands its mobile coverage upstream.
 
 #### A. MASVS-STORAGE
@@ -213,7 +217,7 @@ Populate `templates/finding.md` exactly. The one mobile-specific extension is th
 
 - **`CWE`** — mandatory; resolved via the MASWE chain (see §3). Verify MASWE IDs at <https://mas.owasp.org/MASWE/>.
 - **`CVE`** — N/A for source-code weaknesses unless an exploited library is a direct trigger.
-- **`OpenCRE`** — defaults to `N/A for mobile scan — OpenCRE's MASVS coverage is limited`; populate from `data/opencre/CWE-XXX.md` only if a pre-mapped entry exists.
+- **`OpenCRE`** — defaults to `N/A for mobile scan — OpenCRE's MASVS coverage is limited`; optionally populate from a verified external lookup.
 - **`OWASP Ref`** — `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN> (dynamic verification recommended)` plus any overlapping `ASVS V#.#.#` or `Top 10 A##`.
 - **`ID`** — assigned at report generation; leave as a placeholder during the review.
 - **`Location`, `Impact`, `Evidence`, `Remediation`, `Confidence`** — per the standard template.
@@ -240,7 +244,7 @@ Report-level rules:
 > Canonical content: <https://github.com/OWASP/mastg> · <https://mas.owasp.org/MASTG/>
 
 ### Findings
-[Standard finding template for each issue, sorted by severity. CWE resolved via the MASWE chain; OpenCRE N/A for mobile unless pre-mapped in `data/opencre/`; `OWASP Ref` carries `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN>`; each finding carries a `MASTG references:` bullet listing any non-TEST `@MASTG-<KIND>-####` cross-refs cited in the informing tests (omit when empty).]
+[Standard finding template for each issue, sorted by severity. CWE resolved via the MASWE chain; OpenCRE N/A unless verified externally; `OWASP Ref` carries `MASVS-<GROUP>-<N>, MASWE-<NNNN>, MASTG-TEST-<NNNN>`; each finding carries a `MASTG references:` bullet listing any non-TEST `@MASTG-<KIND>-####` cross-refs cited in the informing tests (omit when empty).]
 
 ### Positive Observations
 [Security controls that ARE in place — acknowledge good practices]
@@ -269,6 +273,6 @@ Report-level rules:
 - [OWASP MASVS v2.1.0](https://mas.owasp.org/MASVS/) — Mobile Application Security Verification Standard
 - [OWASP MASTG](https://mas.owasp.org/MASTG/) — Mobile Application Security Testing Guide (forward references only)
 - [OWASP MAS Checklist](https://mas.owasp.org/checklists/)
-- [OWASP ASVS v5.0](https://owasp.org/www-project-application-security-verification-standard/) — overlapping items (V6 Cryptography, V14 Communications)
+- [OWASP ASVS v5.0](https://github.com/OWASP/ASVS/tree/v5.0.0/5.0/en) — overlapping items (V11 Cryptography, V12 Secure Communication)
 - CWE-312, CWE-327, CWE-295, CWE-926, CWE-749, CWE-200
 - [OpenCRE](https://www.opencre.org) — cross-standard linking for findings
