@@ -16,7 +16,7 @@ Each file has YAML frontmatter with:
 ---
 title: "CWE-79 Cross-site Scripting (XSS)"
 cwe_id: "CWE-79"
-owasp_top10: "A03:2021 Injection"
+owasp_top10: "A05:2025 Injection"
 opencre_mappings:                         # Verified CRE IDs from API
   - cre_id: "366-835"
     cre_name: "Escape output against XSS"
@@ -53,19 +53,21 @@ Use the `when_to_use` frontmatter to match tasks to relevant CWE/CRE mappings. F
 
 | File | CWE | OWASP Top 10 | Primary CRE ID | CRE Name |
 |------|-----|-------------|----------------|----------|
-| [CWE-79](CWE-79.md) | CWE-79 | A03 Injection | 366-835 | Escape output against XSS |
-| [CWE-89](CWE-89.md) | CWE-89 | A03 Injection | 732-873 | Lock/precompile queries (parameterization) |
-| [CWE-78](CWE-78.md) | CWE-78 | A03 Injection | 857-718 | Protect against OS command injection |
+| [CWE-79](CWE-79.md) | CWE-79 | A05 Injection | 366-835 | Escape output against XSS |
+| [CWE-89](CWE-89.md) | CWE-89 | A05 Injection | 732-873 | Lock/precompile queries (parameterization) |
+| [CWE-78](CWE-78.md) | CWE-78 | A05 Injection | 857-718 | Protect against OS command injection |
 | [CWE-22](CWE-22.md) | CWE-22 | A01 Broken Access Control | 675-168 | Sanitize filename metadata from untrusted origin |
 | [CWE-287](CWE-287.md) | CWE-287 | A07 Auth Failures | 813-610 | Do not use static secrets |
 | [CWE-200](CWE-200.md) | CWE-200 | A01 Broken Access Control | 227-045 | Identify sensitive data and subject it to a policy |
-| [CWE-327](CWE-327.md) | CWE-327 | A02 Cryptographic Failures | 742-431 | Use approved cryptographic algorithms |
+| [CWE-327](CWE-327.md) | CWE-327 | A04 Cryptographic Failures | 742-431 | Use approved cryptographic algorithms |
 | [CWE-352](CWE-352.md) | CWE-352 | A01 Broken Access Control | 464-084 | Add CSRF protection for cookie based REST services |
 | [CWE-384](CWE-384.md) | CWE-384 | A07 Auth Failures | 002-630 | Generate a new session token after authentication |
 | [CWE-502](CWE-502.md) | CWE-502 | A08 Data Integrity | 831-563 | Avoid deserialization logic |
 | [CWE-778](CWE-778.md) | CWE-778 | A09 Logging Failures | 184-284 | Log all security relevant events |
 | [CWE-798](CWE-798.md) | CWE-798 | A07 Auth Failures | 774-888 | Do not store secrets in the code |
-| [CWE-16](CWE-16.md) | CWE-16 | A05 Misconfiguration | 180-488 | Proper Configuration for all apps and frameworks |
+| [CWE-16](CWE-16.md) | CWE-16 | A02 Security Misconfiguration | 180-488 | Proper Configuration for all apps and frameworks |
+
+Web Top 10 mappings use [2025](https://owasp.org/Top10/2025/); API Top 10 and LLM/agent standards have separate versions. CRE links may return older ASVS versions: verify each requirement before citing it as ASVS 5.0. These links are cross-references, not a control-coverage assessment.
 
 ## CRE Hierarchy
 
@@ -96,7 +98,7 @@ Web UI: `https://www.opencre.org/cre/{cre-id}`
 | Standard | Coverage |
 |----------|----------|
 | CWE | Common Weakness Enumeration |
-| OWASP Top 10 (2021) | A01-A10 |
+| OWASP Web Top 10 (2025) | A01-A10 |
 | OWASP ASVS | Application Security Verification Standard |
 | OWASP WSTG | Web Security Testing Guide |
 | OWASP Proactive Controls | C1-C10 |

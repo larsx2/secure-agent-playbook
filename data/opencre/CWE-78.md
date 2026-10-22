@@ -1,7 +1,7 @@
 ---
 title: "CWE-78 OS Command Injection"
 cwe_id: "CWE-78"
-owasp_top10: "A03:2021 Injection"
+owasp_top10: "A05:2025 Injection"
 opencre_mappings:
   - cre_id: "857-718"
     cre_name: "Protect against OS command injection attack"

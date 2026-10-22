@@ -8,8 +8,8 @@ Use this structure for all security findings produced by skills.
 - **ID**: NDC-YYYY-NNN (auto-incrementing)
 - **CWE**: CWE-XXX (if applicable)
 - **CVE**: CVE-YYYY-NNNNN (if applicable)
-- **OpenCRE**: [CRE-ID](https://www.opencre.org/cre/CRE-ID) — requirement name (see data/opencre/)
-- **OWASP Ref**: Top 10 A01, ASVS V4.1.1, MASVS-STORAGE-1, MASWE-0001, MASTG-TEST-0200, LLM01, etc.
+- **OpenCRE**: [CRE-ID](https://www.opencre.org/cre/CRE-ID) — requirement name (optional external lookup)
+- **OWASP Ref**: Web Top 10 A01:2025, ASVS v5.0.0 V8.2.1, MASVS-STORAGE-1, MASWE-0001, MASTG-TEST-0200, LLM01:2025, etc.
 - **Location**: file_path:line_number or component name
 - **Impact**: What an attacker can achieve (1-2 sentences)
 - **Evidence**: Code snippet, command output, or proof-of-concept
@@ -27,7 +27,7 @@ GET https://www.opencre.org/rest/v1/standard/CWE/sectionid/{cwe-number}
 
 This returns the CRE ID and linked standards (ASVS, WSTG, NIST 800-53, cheat sheets). Include the CRE link in findings to give readers one-click access to all related standards and remediation guidance.
 
-Common mappings are pre-populated in `data/opencre/README.md`.
+OpenCRE mappings are optional external lookups, not bundled dependencies. Record unavailable lookups without inventing mappings and verify the returned standard version.
 
 ## Severity Definitions
 

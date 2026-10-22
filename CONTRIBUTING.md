@@ -83,7 +83,7 @@ All findings must use the structure defined in `plugins/<group>/templates/findin
 
 Resolve OpenCRE links via the API: `GET https://www.opencre.org/rest/v1/standard/CWE/sectionid/{cwe-number}`
 
-Common mappings are pre-populated in `data/opencre/README.md`.
+Common mappings are pre-populated in the repository's `data/opencre/README.md`. That directory is a contributor reference and is not bundled into the plugins, so the skill templates treat OpenCRE as an optional external lookup.
 
 ## Pull Request Guidelines
 

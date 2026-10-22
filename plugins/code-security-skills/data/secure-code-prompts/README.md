@@ -19,7 +19,7 @@ when_to_use:
 threats:
   - overly permissive IAM policies
 summary: "Brief description."
-owasp_references: ["A01:2021", "A05:2021"]
+owasp_references: ["A01:2025", "A02:2025"]
 ---
 ```
 

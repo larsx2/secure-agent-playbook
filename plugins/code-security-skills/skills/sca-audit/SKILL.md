@@ -18,7 +18,7 @@ Scan dependencies for known CVEs by following the full procedure in `plays/sca-a
    - `pip-audit -r requirements.txt --format=json` (Python)
    - `govulncheck ./...` (Go)
    - `trivy fs --format json --scanners vuln <path>` (multi-ecosystem)
-   - If no scanner is installed, **stop and ask the user to install one** (e.g., `brew install osv-scanner`). Manual analysis is not viable — even small projects have 50+ dependencies. For individual package triage, point the user to [OSV.dev](https://osv.dev/list).
+   - If no scanner is available, continue manifest/lockfile inventory and reachability work and report advisory matching as not assessed. Record the missing tooling and ask the user before installing a scanner (e.g., `brew install osv-scanner`); never report the result as a clean scan. For individual package triage, use [OSV.dev](https://osv.dev/list).
 
 3. **Analyze Results** — For each vulnerability: determine reachability (is the vulnerable code path used?), check exploitability context (deployment matters), and identify fix availability (patch vs major version bump).
 
@@ -30,6 +30,6 @@ Scan summary (ecosystems, dependency count, scanner used), findings sorted by se
 
 ## OWASP References
 
-- A06:2021: Vulnerable and Outdated Components
+- A03:2025: Software Supply Chain Failures
 - OWASP Dependency-Check
 - OWASP SCVS

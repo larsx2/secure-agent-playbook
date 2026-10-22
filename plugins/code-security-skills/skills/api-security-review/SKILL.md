@@ -57,6 +57,6 @@ Comprehensive API security report including:
 ## OWASP References
 
 - OWASP API Security Top 10 (2023)
-- OWASP ASVS v5.0 — V13: API and Web Service
+- OWASP ASVS v5.0 — V4: API and Web Service
 - OWASP Testing Guide: WSTG-APIT
 - OWASP Cheat Sheet: REST Security, GraphQL Security, JWT Security, OAuth 2.0
