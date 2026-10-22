@@ -1,6 +1,6 @@
 # Finding Template
 
-Use this structure for all security findings produced by skills.
+Use this structure for all security findings produced by skills. Review skills fill the classification, trace, prerequisites and validation fields as defined in `plays/assessment-contract.md`.
 
 ```markdown
 ### [SEVERITY] Title
@@ -13,6 +13,10 @@ Use this structure for all security findings produced by skills.
 - **Location**: file_path:line_number or component name
 - **Impact**: What an attacker can achieve (1-2 sentences)
 - **Evidence**: Code snippet, command output, or proof-of-concept
+- **Classification**: Confirmed vulnerability | Control gap | Unresolved question
+- **Trace**: Attacker-controlled input → transformations/defenses → sink, with file:line (or the setting/resolved version and where it takes effect)
+- **Prerequisites**: Attacker role/tenant, configuration and other conditions; mark each as verified or assumed
+- **Validation**: What was observed, what was not run (and why), and what runtime evidence is missing
 - **Remediation**: Specific fix with code example
 - **Confidence**: HIGH | MEDIUM | LOW (how certain is this finding)
 ```
@@ -43,6 +47,6 @@ OpenCRE mappings are optional external lookups, not bundled dependencies. Record
 
 | Level | Meaning |
 |-------|---------|
-| HIGH | Confirmed via code path analysis, PoC, or tool output |
-| MEDIUM | Strong indicators but not fully confirmed — needs manual verification |
-| LOW | Heuristic match or pattern-based — may be false positive |
+| HIGH | Trace and all prerequisites supported by evidence, or a directly observed control gap |
+| MEDIUM | Strong indicators but some context missing — needs manual verification |
+| LOW | Heuristic or pattern match — a candidate to investigate, not a confirmed vulnerability |
