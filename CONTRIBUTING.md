@@ -37,11 +37,35 @@ Skills are the invocation layer that wraps plays for Claude Code plugin installa
 
 1. Decide which plugin group your skill belongs to (see groups below)
 2. Create a new directory under `plugins/<group>/skills/` with your skill name
-3. Add a `SKILL.md` file following the template in `template/SKILL.md`. Its frontmatter needs a `name`, a `description` that says when to use the skill, and `license: CC-BY-4.0`
-4. Reference the corresponding play in your skill (`plays/<play>.md`). A skill that reviews existing code, configuration or systems must also tell the agent to follow `plays/assessment-contract.md` first; a skill that only writes code or requirements goes in `NOT_REVIEW_SKILLS` in `scripts/test_assessment_contract.py`, which checks this
+3. Add a `SKILL.md` file following `template/SKILL.md.example` (the template itself is not an installable skill). Its frontmatter needs a `name`, a `description` that says when to use the skill, and `license: CC-BY-4.0`
+4. Reference the corresponding play with a skill-root path (`plays/<play>.md`). Use explicit `plays/`, `templates/` and `data/<dataset>/` pointers for bundled dependencies, and write Markdown links in SKILL.md relative to the skill root (`[plays/x.md](plays/x.md)`, never `../../plays/x.md`). Links inside plays/templates are relative to those documents. A skill that reviews existing code, configuration or systems must also tell the agent to follow `plays/assessment-contract.md` first; a skill that only writes code or requirements goes in `NOT_REVIEW_SKILLS` in `scripts/test_assessment_contract.py`, which checks this
 5. Don't add an `allowed-tools` line that pre-approves `Bash`, `WebFetch`, or `Agent`. These skills read untrusted code and content, and pre-approval removes the permission prompt that would catch an injected command
 
 Skills are auto-discovered from `plugins/<group>/skills/` — no manifest registration step needed.
+
+### Standalone and Release Packaging
+
+Canonical content stays in each plugin's `plays/`, `templates/`, `data/` and `skills/*/SKILL.md`. After changing dependencies, run `python3 scripts/package_skills.py --sync` and commit the generated relative resource symlinks inside the skill directories. Do not edit through these links or maintain copied text. The same transitive dependency graph builds release ZIPs; unknown local dependencies fail rather than being silently omitted. The exception is repo-root research data (`data/opencre/` and similar): plays and templates may cite it, but it is not bundled. MASTG bundles MASVS-linked tests and their locally available transitive test references; upstream-only entities remain explicit online lookups. The generated links need Git symlink support: on Windows, turn on Developer Mode and run `git config --global core.symlinks true` before cloning (clone again if you already have a checkout). `--check` reports a checkout where they became text stubs.
+
+Validation from the repository root (use an isolated virtual environment with `python3 -m pip install -r scripts/requirements.txt` for the existing extractor tests; the packager itself uses only Python's standard library):
+
+```sh
+python3 -m unittest discover -s scripts -p 'test_*.py'
+scripts/package_skills.sh
+```
+
+Each release archive must remain at or below 200 files, the limit the claude.ai skills upload has enforced (see README, "Organization skills"). Test actual CLI copying after layout changes, not just archive contents, using an isolated temporary HOME/project (never your normal agent configuration):
+
+```sh
+repo="$PWD"
+smoke="$(mktemp -d)"
+mkdir -p "$smoke/home" "$smoke/project"
+(cd "$smoke/project" && HOME="$smoke/home" XDG_CONFIG_HOME="$smoke/home/.config" \
+  npm_config_cache="$smoke/npm-cache" npx --yes skills add "$repo" \
+  --skill '*' --agent claude-code --copy --yes)
+```
+
+Inspect each installed skill's procedures, templates and data against the source; confirm that no installed link depends on the source checkout. This verifies packaging, not the effectiveness of security findings. Standalone installs do not include plugin agents/orchestration.
 
 **Plugin groups:**
 - `code-security-skills` — Code, infrastructure, and dependency analysis

@@ -25,7 +25,7 @@ TODO — define the enhanced PRD artifact shape.
 
 ## References
 
-- Triggering skill: [`plugins/code-security-skills/skills/prd-securability-enhancement/SKILL.md`](../skills/prd-securability-enhancement/SKILL.md)
+- Triggering skill: `plugins/code-security-skills/skills/prd-securability-enhancement/SKILL.md`
 - OWASP ASVS v5.0 chapter index: `data/asvs/README.md`
 - OWASP ASVS v5.0 chapters: `data/asvs/V*.md`
 - FIASSE v1.0.4 foundational principles: `data/fiasse/S2.1.md`–`S2.6.md`

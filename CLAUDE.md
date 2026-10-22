@@ -130,7 +130,7 @@ agent-security-playbook/
 │   ├── llm-top10/                # Parsed LLM Top 10 data
 │   └── opencre/                  # OpenCRE cross-standard mappings (CWE <-> ASVS <-> WSTG <-> NIST)
 └── template/
-    └── SKILL.md                  # Skill template for contributors
+    └── SKILL.md.example          # Contributor template (not a selectable skill)
 ```
 
 ## Three-Layer Architecture
@@ -138,6 +138,8 @@ agent-security-playbook/
 - **`plugins/*/agents/`** — Autonomous security specialists with focused system prompts, co-located inside each plugin (`plugins/code-security-skills/agents/` and `plugins/ai-security-skills/agents/`). Each agent invokes one or more skills, operates in an isolated context, and produces structured reports. Can work solo or as a coordinated team via `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`.
 - **`plugins/*/skills/`** — Self-contained `SKILL.md` files following the [Agent Skills spec](https://agentskills.io/specification). Co-located inside each plugin directory, installable via `/plugin marketplace add OWASP/secure-agent-playbook` then `/plugin install <name>@agent-security-playbook`. Each skill summarizes a procedure and references its corresponding play.
 - **`plugins/*/plays/`** — Full reference procedures with detailed checklists, tables, and examples. Skills reference these for comprehensive coverage. **Live inside each plugin's source folder** so they are bundled with the marketplace install. Contributors edit plays; skills are the invocation layer; agents are the orchestration layer.
+
+Standalone Skills CLI installs copy only the selected skill directory. Its generated `plays/`, `templates/` and `data/` symlinks expose the transitive canonical dependencies without maintaining duplicate sources. Edit canonical files, then run `python3 scripts/package_skills.py --sync`; see CONTRIBUTING.md for isolated install validation. Relative resource paths in a skill are based at its installed root; direct play readers use the plugin root. The same dependency graph produces per-skill release ZIPs.
 
 ## Play Tiers (Priority Order)
 

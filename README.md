@@ -72,7 +72,17 @@ Claude will automatically activate the relevant skill based on context. See [Ski
 2. Download the zip for each skill you want (e.g. `web-security-review.zip`)
 3. Upload it at **Organization settings > Skills > Upload a skill**
 
-> **Note:** The skills upload rejects zips with more than 200 files, so the full `secure-agent-playbook.zip` cannot be uploaded there — use the per-skill zips. To build them from a clone, run `scripts/package_skills.sh` and upload from `dist/skills/`.
+> **Note:** The skills upload has rejected zips with more than 200 files ("Zip contains too many files (maximum 200)", [#23](https://github.com/OWASP/secure-agent-playbook/issues/23)), so the full `secure-agent-playbook.zip` cannot be uploaded there — use the per-skill zips. This limit is observed behaviour, not a documented one; packaging fails any skill above it. To build the zips from a clone, run `scripts/package_skills.sh` and upload from `dist/skills/`.
+
+**Standalone Skills CLI (`npx skills`)** — Install directly from GitHub, without downloading release ZIPs:
+
+```sh
+npx skills add https://github.com/OWASP/secure-agent-playbook --skill code-review-security security-guidance api-security-review sca-audit secrets-scan
+```
+
+Each skill directory includes its plays, templates and reference data as relative symlinks to the canonical files, and the Skills CLI copies the link targets on install. A local clone works too: `npx skills add /path/to/secure-agent-playbook --skill code-review-security --copy`. Resource paths are relative to the installed skill root; plays opened directly use the plugin root. Repo-root research data (such as `data/opencre/`) and upstream-only MASTG entries are not bundled.
+
+> **Windows:** Git checks symlinks out as small text files unless symlink support is on (`core.symlinks=false` is the Windows default), and a direct install then copies those path stubs instead of the content. Turn on Developer Mode and run `git config --global core.symlinks true` before cloning or installing (clone again if you already have a checkout), or use the per-skill release zips above. `scripts/package_skills.py --check` reports this case.
 
 **Local development** — To test from a local clone instead of GitHub:
 ```

@@ -26,7 +26,7 @@ TODO — define the consolidated report shape. Likely a single markdown bundle w
 
 ## References
 
-- Triggering skill: [`plugins/code-security-skills/skills/securability-engineering/SKILL.md`](../skills/securability-engineering/SKILL.md)
+- Triggering skill: `plugins/code-security-skills/skills/securability-engineering/SKILL.md`
 - Dependent skills: `prd-securability-enhancement`, `securability-engineering-review`
 - FIASSE v1.0.4: `data/fiasse/` (foundational principles + SSEM attributes)
 - OWASP ASVS v5.0: `data/asvs/`
