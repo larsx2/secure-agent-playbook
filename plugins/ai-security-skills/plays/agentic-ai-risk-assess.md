@@ -22,6 +22,8 @@ Use this play when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first.
+
 ### 1. Architecture Mapping
 
 Before assessing risks, map the agentic system:

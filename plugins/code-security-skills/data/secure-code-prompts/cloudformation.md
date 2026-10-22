@@ -14,7 +14,7 @@ threats:
   - missing CloudTrail, VPC Flow Logs, and audit logging
   - publicly exposed EC2 instances, databases, and admin interfaces
 summary: "Security review checklist for AWS CloudFormation templates covering IAM, secrets, networking, storage, encryption, logging, public exposure, resource hardening, infrastructure misconfiguration, and supply chain integrity."
-owasp_references: ["A01:2021", "A02:2021", "A05:2021", "A09:2021"]
+owasp_references: ["A01:2025", "A04:2025", "A02:2025", "A09:2025"]
 ---
 
 # AWS CloudFormation Security Review

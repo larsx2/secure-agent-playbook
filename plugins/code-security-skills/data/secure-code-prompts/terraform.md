@@ -14,7 +14,7 @@ threats:
   - unsafe module sources and unpinned provider versions
   - state file exposure revealing secrets
 summary: "Security review checklist for Terraform infrastructure code covering IAM, secrets, networking, storage, encryption, logging, resource exposure, Terraform-specific risks, supply chain, and abuse prevention."
-owasp_references: ["A01:2021", "A02:2021", "A05:2021", "A09:2021"]
+owasp_references: ["A01:2025", "A04:2025", "A02:2025", "A09:2025"]
 ---
 
 # Terraform Security Review

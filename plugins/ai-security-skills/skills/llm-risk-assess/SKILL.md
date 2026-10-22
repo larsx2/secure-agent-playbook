@@ -1,12 +1,13 @@
 ---
 name: llm-risk-assess
 description: Comprehensive LLM security assessment against OWASP Top 10 for LLM Applications 2025. Use when reviewing LLM-integrated applications, RAG pipelines, chatbots, AI agents, or GenAI features. Covers prompt injection, data poisoning, supply chain, excessive agency, and more with real-world attack scenarios and testing methodologies.
-allowed-tools: Read, Grep, Glob, Bash, WebFetch, Agent
 ---
 
 # LLM Risk Assessment (2025)
 
 Comprehensive evaluation of LLM applications against OWASP Top 10 for LLM Applications 2025. Follow the detailed procedure in `plays/llm-risk-assess.md`.
+
+Follow `plays/assessment-contract.md` first. Automated probes and red-team tests (steps 2 and 4) send payloads to a live system and need the user's approval.
 
 ## Steps
 
@@ -16,7 +17,7 @@ Comprehensive evaluation of LLM applications against OWASP Top 10 for LLM Applic
    - Identify RAG components, tool integrations, memory systems
    - Define trust boundaries and attack surfaces
 
-2. **Automated Security Testing**
+2. **Automated Security Testing** (with approval)
    - Run prompt injection probes (Garak, Giskard, custom scripts)
    - Test output handling vulnerabilities
    - Scan for secrets in prompts and configurations
@@ -34,7 +35,7 @@ Comprehensive evaluation of LLM applications against OWASP Top 10 for LLM Applic
    - **LLM09 Misinformation** — Hallucinations, authoritative presentation, grounding failures, harmful domains
    - **LLM10 Unbounded Consumption** — Token exhaustion, cost attacks, resource exhaustion, DoS
 
-4. **Red Team Testing**
+4. **Red Team Testing** (with approval)
    - Attempt real-world attack scenarios
    - Test defense bypasses and evasion techniques
    - Validate guardrails and safety controls
@@ -44,7 +45,7 @@ Comprehensive evaluation of LLM applications against OWASP Top 10 for LLM Applic
 Comprehensive LLM security report:
 - Architecture diagram with trust boundaries
 - Risk matrix (all 10 categories with severity/status)
-- Detailed findings with proof-of-concept examples
+- Detailed findings using `templates/finding.md`; proof-of-concept results only from approved tests
 - Red team test results and bypass techniques
 - Remediation roadmap with code examples
 - Defense validation checklist

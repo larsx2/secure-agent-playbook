@@ -104,10 +104,10 @@ Reference plays directly as procedures for any AI agent or manual use:
 | Skill | What It Does | Say This | OWASP Ref |
 |-------|-------------|----------|-----------|
 | `code-review-security` | Security code review mapped to Top 10 + ASVS | "Review this code for security issues" | Top 10, ASVS |
-| `sca-audit` | Dependency CVE scanning with reachability analysis | "Scan my dependencies for CVEs" | A06:2021 |
+| `sca-audit` | Dependency CVE scanning with reachability analysis | "Scan my dependencies for CVEs" | A03:2025 |
 | `secrets-scan` | Detect hardcoded credentials and API keys | "Scan for hardcoded secrets" | CWE-798 |
 | `api-security-review` | API review against OWASP API Top 10 (2023) | "Review this API for security" | API Top 10 |
-| `web-security-review` | Web app review against OWASP Top 10 (2021) | "Review this web app for OWASP Top 10" | Top 10 |
+| `web-security-review` | Web app review against OWASP Top 10 (2025) | "Review this web app for OWASP Top 10" | Top 10 |
 | `mobile-code-review` | Native Android/iOS source review against OWASP MASVS v2.1.0 | "Review this mobile app for security" | MASVS v2.1.0 |
 | `iac-security-review` | IaC security (Terraform, K8s, CloudFormation) | "Review this Terraform for security" | CIS Benchmarks |
 | `securability-engineering` | Generate inherently securable code (FIASSE v1.0.4) | "Generate secure code for..." | FIASSE v1.0.4 |
@@ -126,6 +126,8 @@ Reference plays directly as procedures for any AI agent or manual use:
 | `prompt-injection-test` | Prompt injection testing (Arcanum PI Taxonomy) | "Test for prompt injection" | LLM01 |
 | `multi-agentic-threat-model` | CSA MAESTRO 7-layer threat modeling | "Model threats for this multi-agent system" | CSA MAESTRO |
 | `ai-security-verification` | AI application verification against OWASP AISVS (13 categories) | "Verify this AI app against AISVS" | AISVS |
+
+**Review assessment contract** — Every review skill and agent in both plugins first follows `plays/assessment-contract.md` ([code](plugins/code-security-skills/plays/assessment-contract.md), [AI](plugins/ai-security-skills/plays/assessment-contract.md); identical copies). It starts read-only and asks once, up front, before running project code, installing tools, sending source or dependency lists to third parties, or testing a live system; subagents that cannot ask skip anything their brief does not list as approved. It also states whether the review covers a diff, the whole repository or a named target, and labels each finding a confirmed vulnerability, control gap or unresolved question. Per-requirement ASVS status (per-category for AISVS) is reported only when you ask for verification at a stated level, and only for in-scope requirements. `securability-engineering` and `prd-securability-enhancement` write code or requirements and are not bound by it; `security-guidance` applies it only when asked to assess existing controls. These procedures do not certify compliance or guarantee that every vulnerability is found.
 
 ## Agents
 
@@ -169,7 +171,7 @@ Findings: CRITICAL 1 | HIGH 2 | MEDIUM 1 | LOW 0
 
 - **CWE**: [CWE-89](https://cwe.mitre.org/data/definitions/89.html)
 - **OpenCRE**: [CRE-764-507](https://www.opencre.org/cre/764-507) — Injection Prevention
-- **OWASP Ref**: A03:2021 Injection
+- **OWASP Ref**: A05:2025 Injection
 - **Location**: `src/auth/login.js:42`
 - **Impact**: Attacker can extract the entire users table, bypass authentication, or execute arbitrary SQL via crafted `id` parameter
 - **Evidence**:
@@ -213,7 +215,7 @@ Immediate, practical value for any codebase. Bundled inside the `code-security-s
 | [code-review-security](plugins/code-security-skills/plays/code-review-security.md) | Systematic security code review mapped to OWASP Top 10 and ASVS |
 | [secrets-scan](plugins/code-security-skills/plays/secrets-scan.md) | Detect hardcoded credentials, API keys, and tokens |
 | [api-security-review](plugins/code-security-skills/plays/api-security-review.md) | Review APIs against OWASP API Security Top 10 |
-| [owasp-top10-web-review](plugins/code-security-skills/plays/owasp-top10-web-review.md) | Web application review against OWASP Top 10 (2021) |
+| [owasp-top10-web-review](plugins/code-security-skills/plays/owasp-top10-web-review.md) | Web application review against OWASP Top 10 (2025) |
 | [mobile-code-review](plugins/code-security-skills/plays/mobile-code-review.md) | Native Android/iOS source code review against OWASP MASVS v2.1.0 |
 | [iac-security-review](plugins/code-security-skills/plays/iac-security-review.md) | Review Terraform, Kubernetes, CloudFormation against CIS benchmarks and cloud security best practices |
 | [securability-engineering-review](plugins/code-security-skills/plays/securability-engineering-review.md) | Assess code against FIASSE v1.0.4/SSEM securable attributes: Maintainability, Trustworthiness, Reliability, and Transparency |

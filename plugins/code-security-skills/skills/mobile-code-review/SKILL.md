@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Review native Android and iOS source code for security vulnerabilities by following the full procedure in `plays/mobile-code-review.md`.
 
+Follow `plays/assessment-contract.md` first.
+
 ## Steps
 
 1. **Scope & Context** — Language (Java/Kotlin/Swift/Obj-C/Dart), platform, app type, sensitive data, exposure.

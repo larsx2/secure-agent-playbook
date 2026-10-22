@@ -19,6 +19,8 @@ Use this skill when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. Starting the server or calling its tools needs approval.
+
 ### 1. Transport & Authentication Review
 
 | Check | Risk | What to Look For |
@@ -127,4 +129,4 @@ Check the client-side MCP configuration:
 - **LLM05**: Improper Output Handling (tool output rendering)
 - **LLM06**: Excessive Agency (overpermissioned tools)
 - **LLM07**: System Prompt Leakage (sensitive data in tool descriptions)
-- OWASP Top 10: A01 Broken Access Control, A03 Injection
+- OWASP Web Top 10:2025: A01 Broken Access Control, A05 Injection

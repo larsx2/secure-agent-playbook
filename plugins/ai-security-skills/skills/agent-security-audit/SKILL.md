@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Evaluate an AI agent's security posture by following the full procedure in `plays/agent-security-audit.md`.
 
+Follow `plays/assessment-contract.md` first.
+
 ## Steps
 
 1. **Permission Inventory** — Enumerate every tool, MCP server, file system path, network access, and credential the agent has. Flag capabilities beyond what its stated purpose requires.

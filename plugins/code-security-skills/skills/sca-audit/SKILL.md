@@ -8,17 +8,19 @@ license: CC-BY-4.0
 
 Scan dependencies for known CVEs by following the full procedure in `plays/sca-audit.md`.
 
+Follow `plays/assessment-contract.md` first. Scanners send dependency lists to advisory services and some resolve or build packages, so run them only with the user's approval.
+
 ## Steps
 
 1. **Identify Dependency Manifests** — Scan for all dependency files and lockfiles across ecosystems (Node.js, Python, Go, Java, Ruby, Rust, .NET, PHP). Prefer lockfiles for exact resolved versions.
 
-2. **Run Vulnerability Scan** — Use available tools in preference order:
+2. **Run Vulnerability Scan (with approval)** — Propose tools in preference order:
    - `osv-scanner --lockfile=<path> --format=json` (recommended, multi-ecosystem)
    - `npm audit --json` (Node.js)
    - `pip-audit -r requirements.txt --format=json` (Python)
    - `govulncheck ./...` (Go)
    - `trivy fs --format json --scanners vuln <path>` (multi-ecosystem)
-   - If no scanner is installed, **stop and ask the user to install one** (e.g., `brew install osv-scanner`). Manual analysis is not viable — even small projects have 50+ dependencies. For individual package triage, point the user to [OSV.dev](https://osv.dev/list).
+   - If no scanner is available or approval is not given, continue manifest/lockfile inventory and reachability work and report advisory matching as not assessed. Record the missing tooling and ask the user before installing a scanner (e.g., `brew install osv-scanner`); never report the result as a clean scan. Looking up a CVE or GHSA ID on [OSV.dev](https://osv.dev/list) needs no approval; searching it by package name and version does.
 
 3. **Analyze Results** — For each vulnerability: determine reachability (is the vulnerable code path used?), check exploitability context (deployment matters), and identify fix availability (patch vs major version bump).
 
@@ -26,10 +28,10 @@ Scan dependencies for known CVEs by following the full procedure in `plays/sca-a
 
 ## Output
 
-Scan summary (ecosystems, dependency count, scanner used), findings sorted by severity using `templates/finding.md`, condensed table for medium/low, dependency health flags, and exact remediation commands.
+Scan summary (ecosystems, dependency count, scanner used), findings sorted by severity using `templates/finding.md`, condensed table for medium/low, dependency health flags, and exact remediation commands for the user to run.
 
 ## OWASP References
 
-- A06:2021: Vulnerable and Outdated Components
+- A03:2025: Software Supply Chain Failures
 - OWASP Dependency-Check
 - OWASP SCVS

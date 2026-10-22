@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Audit an MCP server by following the full procedure in `plays/mcp-server-review.md`.
 
+Follow `plays/assessment-contract.md` first. Starting the server or calling its tools needs the user's approval.
+
 ## Steps
 
 1. **Transport & Authentication** — Check transport type (stdio vs HTTP/SSE), authentication on network transports, TLS enforcement, CORS policy, origin validation.
@@ -34,5 +36,5 @@ Server overview, tool risk matrix, findings using `templates/finding.md`, and sp
 - LLM02: Sensitive Information Disclosure
 - LLM05: Improper Output Handling
 - LLM06: Excessive Agency (overpermissioned tools)
-- A01: Broken Access Control
-- A03: Injection
+- A01:2025: Broken Access Control (Web Top 10)
+- A05:2025: Injection (Web Top 10)

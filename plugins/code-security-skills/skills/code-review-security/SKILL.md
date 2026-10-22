@@ -8,18 +8,24 @@ license: CC-BY-4.0
 
 Review code for security vulnerabilities by following the full procedure in `plays/code-review-security.md`.
 
+Follow `plays/assessment-contract.md` first. Produce per-control ASVS status rows only when the user asks to verify at a stated ASVS level (contract section 6).
+
 ## Steps
 
 1. **Scope & Context** — Establish language/framework, trust boundary (server/client/library/CLI), data sensitivity (PII, credentials, financial), and exposure (internet-facing, internal, local).
 
 2. **Systematic Review by Vulnerability Class** (priority order):
-   - **Injection (A03)** — SQL, command, XSS, SSTI, LDAP, path traversal, header, log injection
-   - **Authentication & Session (A07)** — Hardcoded credentials, missing auth, weak sessions, JWT issues
-   - **Authorization (A01)** — Missing authz checks, IDOR, horizontal/vertical privilege escalation
-   - **Cryptography (A02)** — Weak algorithms, hardcoded keys, missing encryption, custom crypto
-   - **Data Exposure (A01)** — Sensitive data in errors/logs, credentials in code, debug mode
-   - **Misconfiguration (A05)** — Default credentials, permissive CORS, missing security headers
-   - **Deserialization (A08)** — Untrusted deserialization, missing integrity checks, CSRF gaps
+   - **Injection (A05:2025)** — SQL, command, XSS, SSTI, LDAP, header injection
+   - **Authentication & Session (A07:2025)** — Hardcoded credentials, missing auth, weak sessions, JWT issues
+   - **Authorization (A01:2025)** — Missing authz checks, IDOR, horizontal/vertical privilege escalation, path traversal, CSRF
+   - **Cryptography (A04:2025)** — Weak algorithms, hardcoded keys, missing encryption, custom crypto
+   - **Data Exposure (A01:2025; related CWEs map to A02/A07/A09/A10)** — Over-broad responses, sensitive data in errors/logs, credentials in code, debug mode
+   - **Misconfiguration (A02:2025)** — Default credentials, permissive CORS (also A01), missing security headers
+   - **Deserialization & Integrity (A08:2025)** — Untrusted deserialization, missing integrity checks, unsigned cookies/tokens
+   - **Supply Chain (A03:2025)** — Dependency, build, registry and artifact trust
+   - **Insecure Design (A06:2025)** — Business invariants, workflows, concurrency and anti-automation
+   - **Logging / Exceptional Conditions (A09/A10:2025)** — Log injection, actionable alerts, fail-closed errors, resource bounds and recovery
+   - **SSRF (A01:2025)** — Outbound destination policy and connection enforcement
 
 3. **Framework-Specific Checks** — Apply checks for detected framework (React, Express, Django, Flask, Spring, Rails, Go).
 
@@ -33,7 +39,7 @@ Scope summary, findings sorted by severity using `templates/finding.md`, positiv
 
 ## OWASP References
 
-- OWASP Top 10 (2021): A01-A10
+- OWASP Web Top 10 (2025): A01-A10
 - OWASP ASVS v5.0
 - OWASP Code Review Guide
 - OWASP Cheat Sheet Series

@@ -1,7 +1,7 @@
 ---
 title: "CWE-79 Cross-site Scripting (XSS)"
 cwe_id: "CWE-79"
-owasp_top10: "A03:2021 Injection"
+owasp_top10: "A05:2025 Injection"
 opencre_mappings:
   - cre_id: "366-835"
     cre_name: "Escape output against XSS"
@@ -29,7 +29,7 @@ summary: "Cross-site scripting occurs when untrusted data is included in web out
 ## Cross-Standard References
 
 Via OpenCRE 366-835:
-- **ASVS**: V5.3.3 — Verify context-aware output encoding
+- **ASVS v5.0.0 equivalent**: [V1.2.1](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x10-V1-Encoding-and-Sanitization.md#v12-injection-prevention) — Context-aware HTTP/HTML/XML output encoding (verified against the tagged standard; do not reuse the older V5.3.3 ID returned by historical mappings)
 - **WSTG**: WSTG-INPV-01 — Testing for Reflected XSS
 - **OWASP Cheat Sheet**: XSS Prevention
 - **NIST 800-53**: SI-10 — Information Input Validation

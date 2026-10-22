@@ -31,7 +31,7 @@ The following OWASP standards are referenced throughout this project:
 
 | Standard | License | Usage |
 |----------|---------|-------|
-| [OWASP Top 10 (2021)](https://owasp.org/www-project-top-ten/) | CC BY-SA 4.0 | Risk classification in all plays |
+| [OWASP Top 10 (2025)](https://owasp.org/Top10/2025/) | CC BY-SA 4.0 | Web risk classification; API and LLM/agent taxonomies remain separately versioned |
 | [OWASP API Security Top 10 (2023)](https://owasp.org/API-Security/) | CC BY-SA 4.0 | API security review play |
 | [OWASP Top 10 for LLM Applications](https://genai.owasp.org) | CC BY-SA 4.0 | LLM risk assessment play |
 | [OWASP Top 10 for Agentic Applications (2026)](https://genai.owasp.org) | CC BY-SA 4.0 | Agentic AI risk assessment play |

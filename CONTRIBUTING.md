@@ -38,7 +38,7 @@ Skills are the invocation layer that wraps plays for Claude Code plugin installa
 1. Decide which plugin group your skill belongs to (see groups below)
 2. Create a new directory under `plugins/<group>/skills/` with your skill name
 3. Add a `SKILL.md` file following `template/SKILL.md.example` (the template itself is not an installable skill). Its frontmatter needs a `name`, a `description` that says when to use the skill, and `license: CC-BY-4.0`
-4. Reference the corresponding play with a skill-root path (`plays/<play>.md`). Use explicit `plays/`, `templates/` and `data/<dataset>/` pointers for bundled dependencies, and write Markdown links in SKILL.md relative to the skill root (`[plays/x.md](plays/x.md)`, never `../../plays/x.md`). Links inside plays/templates are relative to those documents.
+4. Reference the corresponding play with a skill-root path (`plays/<play>.md`). Use explicit `plays/`, `templates/` and `data/<dataset>/` pointers for bundled dependencies, and write Markdown links in SKILL.md relative to the skill root (`[plays/x.md](plays/x.md)`, never `../../plays/x.md`). Links inside plays/templates are relative to those documents. A skill that reviews existing code, configuration or systems must also tell the agent to follow `plays/assessment-contract.md` first; a skill that only writes code or requirements goes in `NOT_REVIEW_SKILLS` in `scripts/test_assessment_contract.py`, which checks this
 5. Don't add an `allowed-tools` line that pre-approves `Bash`, `WebFetch`, or `Agent`. These skills read untrusted code and content, and pre-approval removes the permission prompt that would catch an injected command
 
 Skills are auto-discovered from `plugins/<group>/skills/` — no manifest registration step needed.
@@ -79,7 +79,7 @@ Agents are autonomous specialists that invoke one or more skills to perform focu
 2. Create a new `.md` file in `plugins/<group>/agents/` named after your agent (e.g., `plugins/code-security-skills/agents/my-agent.md`)
 3. Use YAML frontmatter with required fields: `name`, `description`, `tools`, `model`, `skills`
 4. Optionally add `isolation: worktree` so the agent works on an isolated copy of the repo (recommended for agents that may run in parallel as part of a team)
-5. The system prompt should describe the agent's approach, which skills to invoke and when, and the expected output format
+5. The system prompt should describe the agent's approach, which skills to invoke and when, and the expected output format. Start the approach by telling the agent to follow `plays/assessment-contract.md` first; `scripts/test_assessment_contract.py` checks this
 
 Agents are auto-discovered from `plugins/<group>/agents/` — no manifest registration step needed.
 
@@ -101,13 +101,17 @@ All findings must use the structure defined in `plugins/<group>/templates/findin
 - **Location**: file_path:line_number
 - **Impact**: What an attacker can achieve
 - **Evidence**: Code snippet, command output, or proof-of-concept
+- **Classification**: Confirmed vulnerability | Control gap | Unresolved question
+- **Trace**: Source → defenses → sink with file:line (or request/response for live tests)
+- **Prerequisites**: Conditions required, each verified or assumed
+- **Validation**: What was observed, what was not run, missing evidence
 - **Remediation**: Specific fix with code example
 - **Confidence**: HIGH | MEDIUM | LOW
 ```
 
 Resolve OpenCRE links via the API: `GET https://www.opencre.org/rest/v1/standard/CWE/sectionid/{cwe-number}`
 
-Common mappings are pre-populated in `data/opencre/README.md`.
+Common mappings are pre-populated in the repository's `data/opencre/README.md`. That directory is a contributor reference and is not bundled into the plugins, so the skill templates treat OpenCRE as an optional external lookup.
 
 ## Pull Request Guidelines
 

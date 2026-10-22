@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Brief description referencing the full procedure: `plays/your-play.md`.
 
+Follow `plays/assessment-contract.md` first. (Keep this line for skills that review existing code, configuration or systems; delete it for skills that write code or requirements.)
+
 ## Steps
 
 1. **Step One** — What to do first.

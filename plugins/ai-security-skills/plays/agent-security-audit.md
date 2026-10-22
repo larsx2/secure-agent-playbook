@@ -18,6 +18,8 @@ Use this skill when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first.
+
 ### 1. Permission Inventory
 
 Enumerate every tool and capability the agent has access to:

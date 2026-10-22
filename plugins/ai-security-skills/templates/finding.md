@@ -1,6 +1,6 @@
 # Finding Template
 
-Use this structure for all security findings produced by skills.
+Use this structure for all security findings produced by skills. Review skills fill Classification, Trace, Prerequisites and Validation as `plays/assessment-contract.md` defines.
 
 ```markdown
 ### [SEVERITY] Title
@@ -8,11 +8,15 @@ Use this structure for all security findings produced by skills.
 - **ID**: NDC-YYYY-NNN (auto-incrementing)
 - **CWE**: CWE-XXX (if applicable)
 - **CVE**: CVE-YYYY-NNNNN (if applicable)
-- **OpenCRE**: [CRE-ID](https://www.opencre.org/cre/CRE-ID) — requirement name (see data/opencre/)
-- **OWASP Ref**: Top 10 A01, ASVS V4.1.1, MASVS-STORAGE-1, MASWE-0001, MASTG-TEST-0200, LLM01, etc.
+- **OpenCRE**: [CRE-ID](https://www.opencre.org/cre/CRE-ID) — requirement name (optional external lookup)
+- **OWASP Ref**: Web Top 10 A01:2025, ASVS v5.0.0 V8.2.1, MASVS-STORAGE-1, MASWE-0001, MASTG-TEST-0200, LLM01:2025, etc.
 - **Location**: file_path:line_number or component name
 - **Impact**: What an attacker can achieve (1-2 sentences)
 - **Evidence**: Code snippet, command output, or proof-of-concept
+- **Classification**: Confirmed vulnerability | Control gap | Unresolved question
+- **Trace**: Attacker-controlled input → transformations/defenses → sink, with file:line; for config/dependencies, the setting or resolved version and where it applies; for live tests, the request/response, target and time
+- **Prerequisites**: Attacker role/tenant, configuration and other conditions; mark each as verified or assumed
+- **Validation**: What was observed, what was not run (and why), and what runtime evidence is missing
 - **Remediation**: Specific fix with code example
 - **Confidence**: HIGH | MEDIUM | LOW (how certain is this finding)
 ```
@@ -27,7 +31,7 @@ GET https://www.opencre.org/rest/v1/standard/CWE/sectionid/{cwe-number}
 
 This returns the CRE ID and linked standards (ASVS, WSTG, NIST 800-53, cheat sheets). Include the CRE link in findings to give readers one-click access to all related standards and remediation guidance.
 
-Common mappings are pre-populated in `data/opencre/README.md`.
+OpenCRE mappings are optional external lookups, not bundled dependencies; the query sends only the CWE number, so it needs no approval. Record unavailable lookups without inventing mappings and verify the returned standard version.
 
 ## Severity Definitions
 
@@ -43,6 +47,6 @@ Common mappings are pre-populated in `data/opencre/README.md`.
 
 | Level | Meaning |
 |-------|---------|
-| HIGH | Confirmed via code path analysis, PoC, or tool output |
-| MEDIUM | Strong indicators but not fully confirmed — needs manual verification |
-| LOW | Heuristic match or pattern-based — may be false positive |
+| HIGH | Trace and all prerequisites supported by evidence, or a directly observed control gap |
+| MEDIUM | Strong indicators but some context missing — needs manual verification |
+| LOW | Heuristic or pattern match — a candidate to investigate, not a confirmed vulnerability |

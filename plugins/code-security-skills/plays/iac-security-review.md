@@ -18,6 +18,8 @@ Security review procedure for Infrastructure-as-Code configurations including Te
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. Commands that initialize, plan or apply infrastructure, or contact cloud accounts, need approval.
+
 ### Phase 1: Scope & Context
 
 Establish:

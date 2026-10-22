@@ -13,10 +13,12 @@ Use this skill when:
 ## Inputs
 
 - Project root directory (must contain dependency manifests and/or lockfiles)
-- (Optional) Severity threshold — minimum severity to report (default: MEDIUM)
-- (Optional) Ignore list — CVEs to suppress (with documented justification)
+- (Optional) Severity threshold — filters only the detailed findings list; the report always gives counts for every severity, including unknown, and states what was filtered out and why
+- (Optional) Ignore list — CVEs to defer (with documented justification, owner and review date)
 
 ## Procedure
+
+Follow the [assessment contract](assessment-contract.md) first. Scanners send dependency lists to advisory services and some resolve or build packages; run them only with approval.
 
 ### 1. Identify Dependency Manifests
 
@@ -64,15 +66,9 @@ Use available tools in order of preference:
    trivy fs --format json --scanners vuln <project_path>
    ```
 
-If no scanner is installed, **stop and ask the user to install one** rather than attempting manual analysis. Even small projects have 50+ dependencies — manually cross-referencing versions against CVE databases is not cost-effective. Recommend:
-```bash
-# Fastest to install, covers all ecosystems
-brew install osv-scanner    # or: npm install -g osv-scanner
-# Node.js projects already have this
-npm audit --json
-```
+If no suitable scanner is available, continue the manifest/lockfile inventory and source reachability review. Report advisory matching as not assessed, record unsupported ecosystems, unresolved versions and missing tooling/database evidence, and ask the user to install a scanner (for example `brew install osv-scanner`, or `npm audit --json` for Node.js projects). Do not present manual inventory as a clean vulnerability scan or install tools without asking.
 
-For manual triage of individual packages, use the [OSV.dev vulnerability database](https://osv.dev/list) to search by package name or CVE.
+For manual triage, look up a CVE or GHSA ID in the [OSV.dev vulnerability database](https://osv.dev/list) without approval; searching by package name and version sends dependency data, so it needs approval.
 
 ### 3. Analyze Results
 
@@ -116,6 +112,8 @@ Beyond CVEs, flag:
 - **Total dependencies**: [N direct, M transitive]
 - **Scanner used**: [tool name and version]
 - **Vulnerabilities found**: [X critical, Y high, Z medium, W low]
+- **Coverage gaps**: [unscanned components, unresolved versions/reachability, unavailable scanner/advisory database]
+- **Filtered or deferred findings**: [threshold, omitted counts by severity, rationale, owner and review date]
 
 ### Critical & High Findings
 [Standard finding template for each, sorted by severity]
@@ -134,7 +132,7 @@ Beyond CVEs, flag:
 
 ## OWASP References
 
-- **A06:2021** — Vulnerable and Outdated Components
+- **A03:2025** — Software Supply Chain Failures (Web Top 10; advisory matching covers only part of this category)
 - OWASP Dependency-Check
 - OWASP Software Component Verification Standard (SCVS)
 - OWASP Cheat Sheet: Vulnerable Dependency Management

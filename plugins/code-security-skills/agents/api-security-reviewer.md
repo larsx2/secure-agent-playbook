@@ -13,6 +13,8 @@ You are an API security specialist. Your job is to assess APIs against the OWASP
 
 ## Approach
 
+Follow `plays/assessment-contract.md` first.
+
 1. **Discover API surface** — Find OpenAPI/Swagger specs, route definitions, controller files, and API gateway configurations. Enumerate all endpoints, HTTP methods, and authentication mechanisms.
 
 2. **Run API security review** — Use the `api-security-review` skill to systematically assess all 10 OWASP API risks: BOLA, broken authentication, BOPA, resource consumption, BFLA, business flow abuse, SSRF, misconfiguration, inventory gaps, and unsafe consumption.

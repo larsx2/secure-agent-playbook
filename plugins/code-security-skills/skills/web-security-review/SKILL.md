@@ -1,6 +1,6 @@
 ---
 name: web-security-review
-description: Review web applications against the OWASP Top 10 for Web Applications (2021). Use when auditing web apps, reviewing server-side code, or assessing web frameworks for the classic OWASP Top 10 risks including injection, broken auth, and XSS.
+description: Review web applications against the OWASP Top 10 for Web Applications (2025). Use when auditing web apps, reviewing server-side code, or assessing web frameworks for access control, supply chain, injection, authentication, and exceptional-condition risks.
 license: CC-BY-4.0
 ---
 
@@ -8,21 +8,23 @@ license: CC-BY-4.0
 
 Review web applications against all 10 OWASP Top 10 risks by following the full procedure in `plays/owasp-top10-web-review.md`.
 
+Follow `plays/assessment-contract.md` first. Active tests against a running application need the user's approval.
+
 ## Steps
 
 1. **Application Mapping** — Identify framework/language, deployment model (monolith/microservices), trust boundaries (internet/internal/local), data sensitivity (PII, financial, health), and authentication mechanisms.
 
 2. **Assess Each OWASP Top 10 Risk**:
-   - **A01 Broken Access Control** — Missing authz checks, IDOR, privilege escalation, path traversal, CORS misconfigurations
-   - **A02 Cryptographic Failures** — Weak algorithms, missing TLS, hardcoded keys, improper key management, cleartext storage
-   - **A03 Injection** — SQLi, NoSQLi, OS command injection, LDAP injection, XSS, SSTI, XPath injection
-   - **A04 Insecure Design** — Missing security requirements, business logic flaws, insecure workflows, threat modeling gaps
-   - **A05 Security Misconfiguration** — Default configs, verbose errors, missing headers, unnecessary features, outdated components
-   - **A06 Vulnerable Components** — Unpatched libraries, unsupported dependencies, lack of inventory, missing SBOM
-   - **A07 Identification & Auth Failures** — Weak passwords, session issues, MFA gaps, credential stuffing, brute force
-   - **A08 Software & Data Integrity Failures** — Insecure deserialization, unsigned updates, CI/CD attacks, dependency confusion
-   - **A09 Security Logging & Monitoring Failures** — Missing audit logs, insufficient monitoring, no incident response capability
-   - **A10 Server-Side Request Forgery (SSRF)** — Unvalidated URL parameters, internal service access, cloud metadata endpoints
+   - **A01 Broken Access Control** — Missing authz checks, IDOR, tenant isolation, privilege escalation, CORS (also A02 via CWE-942) and SSRF
+   - **A02 Security Misconfiguration** — Unsafe defaults, unnecessary features, exposed services and missing hardening
+   - **A03 Software Supply Chain Failures** — Vulnerable dependencies, build/publish permissions, provenance and registry trust
+   - **A04 Cryptographic Failures** — Weak algorithms, missing TLS, hardcoded keys and improper key management
+   - **A05 Injection** — SQLi, command injection, XSS, SSTI and interpreter boundaries
+   - **A06 Insecure Design** — Missing security requirements, business logic and workflow invariants
+   - **A07 Authentication Failures** — Password length/blocklists (not composition rules), MFA, session and recovery controls
+   - **A08 Software or Data Integrity Failures** — Unsafe deserialization, unverified updates and data integrity
+   - **A09 Security Logging and Alerting Failures** — Security-event coverage, actionable alerts and response ownership
+   - **A10 Mishandling of Exceptional Conditions** — Fail-open errors, partial transactions, resource exhaustion and insecure recovery
 
 3. **Framework-Specific Analysis** — Apply checks for detected framework (React, Angular, Vue, Express, Django, Flask, Rails, Spring, ASP.NET, Laravel).
 
@@ -34,7 +36,7 @@ Application overview, risk matrix for all 10 categories with severity/status, de
 
 ## OWASP References
 
-- OWASP Top 10 for Web Applications (2021)
+- OWASP Top 10 for Web Applications (2025)
 - OWASP ASVS v5.0 — Application Security Verification Standard
 - OWASP Testing Guide (WSTG)
 - OWASP Cheat Sheet Series

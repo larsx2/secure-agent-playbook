@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Conduct comprehensive security verification of AI-driven applications using the OWASP AI Security Verification Standard (AISVS) framework's 13-category structured checklist. Follow the full procedure in `plays/ai-security-verification.md`.
 
+Follow `plays/assessment-contract.md` first. This is a verification skill. No AISVS control list is bundled, so report status per category (contract section 6) and never invent control IDs.
+
 ## Steps
 
 1. **Training Data Governance & Bias Management** — Assess data quality, provenance, bias detection, and governance controls throughout the data lifecycle.
@@ -39,12 +41,12 @@ Conduct comprehensive security verification of AI-driven applications using the 
 ## Output
 
 Use the finding format from `templates/finding.md`. Produce:
-- **AISVS Compliance Assessment** — Verification status across all 13 categories
+- **Verification Status** — `pass`, `fail`, `n/a` or `not assessed` with evidence for each of the 13 categories; not a compliance certification
 - **Security Control Evaluation** — Detailed analysis of implemented controls
 - **Gap Analysis** — Missing or inadequate security measures
 - **Risk-Based Prioritization** — Critical findings requiring immediate attention
-- **Compliance Roadmap** — Structured plan to achieve AISVS compliance
-- **Verification Evidence** — Documentation supporting compliance claims
+- **Remediation Roadmap** — Structured plan to close the gaps
+- **Coverage** — What was reviewed, and what was not assessed and why
 
 ## OWASP References
 

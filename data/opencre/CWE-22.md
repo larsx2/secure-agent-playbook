@@ -1,7 +1,7 @@
 ---
 title: "CWE-22 Path Traversal"
 cwe_id: "CWE-22"
-owasp_top10: "A01:2021 Broken Access Control"
+owasp_top10: "A01:2025 Broken Access Control"
 opencre_mappings:
   - cre_id: "675-168"
     cre_name: "Sanitize filename metadata from untrusted origin if processing is required"
