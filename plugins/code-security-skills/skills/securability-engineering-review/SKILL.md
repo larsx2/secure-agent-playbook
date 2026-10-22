@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Analyze code for securable engineering qualities and produce a structured SSEM scorecard. This file is **authoritative** for the rubric, weights, severity classification, and report shape. The play at [plays/securability-engineering-review.md](../../plays/securability-engineering-review.md) is the step-by-step runbook; consult it for *when* to do each step, not for *what* the rubric says.
 
+Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines.
+
 Aligned with [FIASSE v1.0.4](https://github.com/OWASP/FIASSE/blob/v1.0.4/docs/securable_framework.md). Per-attribute measurement guidance in `data/fiasse/SA.*.md` (Appendix A).
 
 ## When to Invoke

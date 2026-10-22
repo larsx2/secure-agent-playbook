@@ -18,6 +18,8 @@ Security review procedure for Infrastructure-as-Code configurations including Te
 
 ## Procedure
 
+Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Commands that initialize, plan or apply infrastructure, or contact cloud accounts, need approval.
+
 ### Phase 1: Scope & Context
 
 Establish:

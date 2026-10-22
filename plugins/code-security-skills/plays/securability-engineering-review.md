@@ -24,6 +24,8 @@ Run this play when:
 
 ## Steps
 
+Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines.
+
 ### 1. Establish scope and context
 
 Capture before scoring:

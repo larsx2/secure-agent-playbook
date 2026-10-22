@@ -23,6 +23,8 @@ Use this play when:
 
 ## Procedure
 
+Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Sending payloads to a live application needs the scope agreement listed under Inputs.
+
 ### 1. Scope and Input Surface Mapping
 
 Before testing, define what's in scope and map every path where attacker-controlled content reaches the LLM.

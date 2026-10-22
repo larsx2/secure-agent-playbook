@@ -24,6 +24,8 @@ Use this play when:
 
 ## Procedure
 
+Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Report per-control AISVS status at the level the user states (contract section 5).
+
 ### 1. Training Data Governance & Bias Management
 
 Assess the security and integrity of training data and bias management processes.

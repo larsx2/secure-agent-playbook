@@ -19,6 +19,8 @@ Use this skill when:
 
 ## Procedure
 
+Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Starting the server or calling its tools needs approval.
+
 ### 1. Transport & Authentication Review
 
 | Check | Risk | What to Look For |

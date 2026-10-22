@@ -18,6 +18,8 @@ Use this skill when:
 
 ## Procedure
 
+Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines.
+
 ### 1. Permission Inventory
 
 Enumerate every tool and capability the agent has access to:

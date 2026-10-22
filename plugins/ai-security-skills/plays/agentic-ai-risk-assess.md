@@ -22,6 +22,8 @@ Use this play when:
 
 ## Procedure
 
+Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines.
+
 ### 1. Architecture Mapping
 
 Before assessing risks, map the agentic system:

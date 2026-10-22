@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Conduct comprehensive threat modeling for multi-agent systems using the Cloud Security Alliance (CSA) MAESTRO framework's 7-layer architecture and OWASP Multi-Agentic System Threat Modeling Guide v1.0.
 
+Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines.
+
 ## Steps
 
 1. **MAESTRO 7-Layer Architecture Mapping** — Decompose the system into CSA's layered reference architecture:

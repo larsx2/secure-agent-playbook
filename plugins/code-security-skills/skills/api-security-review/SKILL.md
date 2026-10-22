@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Perform comprehensive API security assessment following `plays/api-security-review.md`.
 
+Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines. Requests, scanners and load tests against a live API need the user's approval.
+
 ## Steps
 
 1. **Discovery & Reconnaissance**
@@ -34,7 +36,7 @@ Perform comprehensive API security assessment following `plays/api-security-revi
    - **API9 Inventory** — Shadow APIs, zombie endpoints, version confusion
    - **API10 Unsafe Consumption** — XXE, deserialization, webhook replay attacks
 
-4. **Automated Testing**
+4. **Automated Testing** (with approval; otherwise record as not performed)
    - Run API security scanners (OWASP ZAP, Burp Suite, Postman tests)
    - Test for common vulnerabilities with specific payloads
    - Validate rate limiting and throttling mechanisms

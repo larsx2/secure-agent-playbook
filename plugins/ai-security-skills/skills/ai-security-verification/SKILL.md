@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Conduct comprehensive security verification of AI-driven applications using the OWASP AI Security Verification Standard (AISVS) framework's 13-category structured checklist. Follow the full procedure in `plays/ai-security-verification.md`.
 
+Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines. This is a verification skill: report per-control AISVS status at the level the user states, as contract section 5 defines.
+
 ## Steps
 
 1. **Training Data Governance & Bias Management** — Assess data quality, provenance, bias detection, and governance controls throughout the data lifecycle.

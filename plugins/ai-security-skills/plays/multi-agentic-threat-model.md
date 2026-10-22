@@ -24,6 +24,8 @@ Use this play when:
 
 ## Procedure
 
+Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines.
+
 ### 1. MAESTRO 7-Layer Architecture Mapping
 
 Decompose the system using CSA's layered reference architecture:

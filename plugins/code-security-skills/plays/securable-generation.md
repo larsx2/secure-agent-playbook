@@ -16,7 +16,7 @@ TODO — formalize the loop. High-level shape:
 
 1. **PRD enhancement** — invoke `prd-securability-enhancement` to add explicit ASVS controls and SSEM acceptance criteria to the incoming feature/spec.
 2. **Generation** — invoke `securability-engineering` (Default Mode) with the enhanced PRD as input. Apply SSEM constraints and emit a Securability Notes block.
-3. **Review** — invoke `securability-engineering-review` to score the generated code against the SSEM rubric and produce findings.
+3. **Review** — invoke `securability-engineering-review` to score the generated code against the SSEM rubric and produce findings. The [assessment contract](assessment-contract.md)'s read-only rule covers this step only; code changes happen in steps 2 and 4, which the user requested.
 4. **Enhancement pass** — feed review findings back to `securability-engineering` for a remediation iteration. Bounded retries (default: 1 pass).
 5. **Report** — emit a consolidated artifact: enhanced PRD + final code + SSEM scorecard + remediation diff.
 

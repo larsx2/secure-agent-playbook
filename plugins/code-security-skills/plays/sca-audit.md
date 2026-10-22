@@ -18,6 +18,8 @@ Use this skill when:
 
 ## Procedure
 
+Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Scanners send dependency lists to advisory services and some resolve or build packages; run them only with approval.
+
 ### 1. Identify Dependency Manifests
 
 Scan for all dependency files in the project:
