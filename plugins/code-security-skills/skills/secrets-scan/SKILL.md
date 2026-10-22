@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Detect hardcoded secrets by following the full procedure in `plays/secrets-scan.md`.
 
+Follow `plays/assessment-contract.md` first. Keep scanner verification off: checking a credential against a live provider is an active test that needs the user's approval.
+
 ## Steps
 
 1. **Run Automated Scanner** — Use available tools in preference order:

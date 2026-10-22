@@ -24,6 +24,8 @@ Use this play when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. Probes and red-team tests against a live system need approval.
+
 ### Phase 1: Architecture Mapping & Threat Modeling
 
 #### 1.1 LLM System Architecture Documentation

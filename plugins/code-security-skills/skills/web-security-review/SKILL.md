@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Review web applications against all 10 OWASP Top 10 risks by following the full procedure in `plays/owasp-top10-web-review.md`.
 
+Follow `plays/assessment-contract.md` first. Active tests against a running application need the user's approval.
+
 ## Steps
 
 1. **Application Mapping** — Identify framework/language, deployment model (monolith/microservices), trust boundaries (internet/internal/local), data sensitivity (PII, financial, health), and authentication mechanisms.

@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Review infrastructure-as-code for security risks by following the full procedure in `plays/iac-security-review.md`.
 
+Follow `plays/assessment-contract.md` first. Commands that initialize, plan or apply infrastructure, or that contact cloud accounts, need the user's approval.
+
 ## Steps
 
 1. **Detect IaC Type** — Identify the infrastructure technology from file extensions and content:

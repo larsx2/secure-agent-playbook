@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Audit an MCP server by following the full procedure in `plays/mcp-server-review.md`.
 
+Follow `plays/assessment-contract.md` first. Starting the server or calling its tools needs the user's approval.
+
 ## Steps
 
 1. **Transport & Authentication** — Check transport type (stdio vs HTTP/SSE), authentication on network transports, TLS enforcement, CORS policy, origin validation.

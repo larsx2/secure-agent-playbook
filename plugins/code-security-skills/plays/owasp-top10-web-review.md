@@ -21,6 +21,8 @@ Use this play when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. The testing approaches below are review questions and tests to propose; running them against a live application needs approval.
+
 ### 1. Application Mapping
 
 Before assessing risks, understand the application:

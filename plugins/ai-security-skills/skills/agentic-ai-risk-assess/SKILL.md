@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Evaluate agentic AI applications against all 10 risk categories by following the full procedure in `plays/agentic-ai-risk-assess.md`.
 
+Follow `plays/assessment-contract.md` first.
+
 ## Steps
 
 1. **Architecture Mapping** — Identify agent type (single/multi-agent), autonomy level, tool ecosystem, memory systems, inter-agent communication protocols, and human oversight mechanisms.

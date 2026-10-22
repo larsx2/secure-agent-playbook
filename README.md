@@ -117,6 +117,8 @@ Reference plays directly as procedures for any AI agent or manual use:
 | `multi-agentic-threat-model` | CSA MAESTRO 7-layer threat modeling | "Model threats for this multi-agent system" | CSA MAESTRO |
 | `ai-security-verification` | AI application verification against OWASP AISVS (13 categories) | "Verify this AI app against AISVS" | AISVS |
 
+**Review assessment contract** — Every review skill and agent in both plugins first follows `plays/assessment-contract.md` ([code](plugins/code-security-skills/plays/assessment-contract.md), [AI](plugins/ai-security-skills/plays/assessment-contract.md); identical copies). It starts read-only and asks once, up front, before running project code, installing tools, sending source or dependency lists to third parties, or testing a live system; subagents that cannot ask skip anything their brief does not list as approved. It also states whether the review covers a diff, the whole repository or a named target, and labels each finding a confirmed vulnerability, control gap or unresolved question. Per-requirement ASVS status (per-category for AISVS) is reported only when you ask for verification at a stated level, and only for in-scope requirements. `securability-engineering` and `prd-securability-enhancement` write code or requirements and are not bound by it; `security-guidance` applies it only when asked to assess existing controls. These procedures do not certify compliance or guarantee that every vulnerability is found.
+
 ## Agents
 
 Agents are autonomous security specialists that invoke skills and produce structured reports. Each agent has a focused system prompt, scoped tool access, and preloaded skills. Use them individually or as a coordinated team.

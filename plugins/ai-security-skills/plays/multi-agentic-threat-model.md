@@ -24,6 +24,8 @@ Use this play when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first.
+
 ### 1. MAESTRO 7-Layer Architecture Mapping
 
 Decompose the system using CSA's layered reference architecture:

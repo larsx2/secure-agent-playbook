@@ -19,6 +19,8 @@ Use this skill when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. Starting the server or calling its tools needs approval.
+
 ### 1. Transport & Authentication Review
 
 | Check | Risk | What to Look For |

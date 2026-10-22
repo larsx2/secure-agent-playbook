@@ -24,6 +24,8 @@ Use this play when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. Request scripts, credential tests, scanners, internal-address probes and load tests below need approval for targets, accounts, data and limits.
+
 ### Phase 1: Discovery & Reconnaissance
 
 #### 1.1 API Surface Enumeration

@@ -36,7 +36,7 @@ Each play in this repo is a self-contained security procedure designed to be inv
 - Each play should solve one well-defined security task (e.g., "scan dependencies for known CVEs", "review IAM policy for over-permissioning")
 - Include clear trigger conditions — when should this play activate?
 - Produce structured output (severity, finding, evidence, remediation) so results can be consumed programmatically
-- Prefer using existing tools (semgrep, trivy, osv-scanner, nuclei, trufflehog) over reimplementing detection logic
+- Prefer using existing tools (semgrep, trivy, osv-scanner, nuclei, trufflehog) over reimplementing detection logic; tools that send project data off the machine or test live systems (e.g. osv-scanner, nuclei) need user approval under `plays/assessment-contract.md`
 - Test plays against known-vulnerable samples where possible
 
 ## Security Review Checklist (for code in this repo and for targets under review)
@@ -64,6 +64,10 @@ When reporting security findings, use this structure:
 - **Location**: file_path:line_number
 - **Impact**: What an attacker can achieve
 - **Evidence**: Code snippet, command output, or proof-of-concept
+- **Classification**: Confirmed vulnerability | Control gap | Unresolved question
+- **Trace**: Source → defenses → sink with file:line (or request/response for live tests)
+- **Prerequisites**: Conditions required, each verified or assumed
+- **Validation**: What was observed, what was not run, missing evidence
 - **Remediation**: Specific fix with code example
 ```
 

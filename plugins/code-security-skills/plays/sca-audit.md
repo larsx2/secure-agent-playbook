@@ -18,6 +18,8 @@ Use this skill when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. Scanners send dependency lists to advisory services and some resolve or build packages; run them only with approval.
+
 ### 1. Identify Dependency Manifests
 
 Scan for all dependency files in the project:
@@ -66,7 +68,7 @@ Use available tools in order of preference:
 
 If no suitable scanner is available, continue the manifest/lockfile inventory and source reachability review. Report advisory matching as not assessed, record unsupported ecosystems, unresolved versions and missing tooling/database evidence, and ask the user to install a scanner (for example `brew install osv-scanner`, or `npm audit --json` for Node.js projects). Do not present manual inventory as a clean vulnerability scan or install tools without asking.
 
-For manual triage of individual packages, use the [OSV.dev vulnerability database](https://osv.dev/list) to search by package name or CVE.
+For manual triage, look up a CVE or GHSA ID in the [OSV.dev vulnerability database](https://osv.dev/list) without approval; searching by package name and version sends dependency data, so it needs approval.
 
 ### 3. Analyze Results
 

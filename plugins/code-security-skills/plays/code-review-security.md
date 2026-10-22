@@ -21,6 +21,8 @@ Use this skill when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first.
+
 ### 1. Scope & Context
 
 Before diving in, establish:

@@ -20,6 +20,8 @@ Do **not** run when only built artifacts (APK/IPA) are present — flag and stop
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. Keep the source-only and runtime caveats below.
+
 ### 1. Scope & Context
 
 Establish:

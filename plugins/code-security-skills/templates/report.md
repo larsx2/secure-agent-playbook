@@ -1,11 +1,14 @@
 # Security Assessment Report Template
 
+Review skills apply `plays/assessment-contract.md` before inspecting the target; this template carries its results.
+
 ## Report: [Target Name]
 
 **Date**: YYYY-MM-DD
 **Assessor**: Claude Code (agent-security-playbook)
-**Scope**: [What was assessed — repo, service, architecture, agent config]
+**Scope**: Diff (base..head) | Whole repository | Targeted — [target and revision]
 **Skills Used**: [List of skills invoked]
+**Approved Operations**: Read-only | [operations the user approved, with limits]
 
 ---
 
@@ -15,18 +18,30 @@
 
 ## Findings Summary
 
-| # | Severity | Title | CWE | OpenCRE | OWASP Ref | Status |
-|---|----------|-------|-----|---------|-----------|--------|
-| 1 | CRITICAL | ... | CWE-XXX | [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ... | Open |
-| 2 | HIGH | ... | CWE-XXX | [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ... | Open |
+| # | Severity | Classification | Title | CWE | OpenCRE | OWASP Ref | Remediation |
+|---|----------|----------------|-------|-----|---------|-----------|-------------|
+| 1 | CRITICAL | Confirmed vulnerability | ... | CWE-XXX | [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ... | Open |
+| 2 | HIGH | Control gap | ... | CWE-XXX | [CRE-ID](https://www.opencre.org/cre/CRE-ID) | ... | Open |
 
 ## Findings Detail
 
-[Include full findings using templates/finding.md format]
+[Full findings in templates/finding.md format, grouped as confirmed vulnerabilities, then control gaps, then unresolved questions]
 
-## Out of Scope
+## Coverage
 
-[Explicitly list what was NOT tested]
+Everything not reviewed goes in the last column, including steps skipped for lack of approval.
+
+| Area (changed file or component) | Reviewed evidence | Excluded or not assessed (reason) |
+|----------------------------------|-------------------|-----------------------------------|
+| ... | file:line, configuration, approved test | ... |
+
+## Verification Status
+
+Only for a requested verification at a stated level (contract section 6); otherwise omit this section.
+
+| Requirement | Status | Evidence / rationale | Missing runtime or deployment evidence |
+|-------------|--------|----------------------|----------------------------------------|
+| ASVS v5.0.0 V6.2.1 (L1) | not assessed | Diff adds a password-change endpoint; minimum length is read from deployment configuration | Deployed password policy |
 
 ## Standards Coverage
 

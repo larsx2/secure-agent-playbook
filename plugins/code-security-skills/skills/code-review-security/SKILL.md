@@ -8,6 +8,8 @@ license: CC-BY-4.0
 
 Review code for security vulnerabilities by following the full procedure in `plays/code-review-security.md`.
 
+Follow `plays/assessment-contract.md` first. Produce per-control ASVS status rows only when the user asks to verify at a stated ASVS level (contract section 6).
+
 ## Steps
 
 1. **Scope & Context** — Establish language/framework, trust boundary (server/client/library/CLI), data sensitivity (PII, credentials, financial), and exposure (internet-facing, internal, local).

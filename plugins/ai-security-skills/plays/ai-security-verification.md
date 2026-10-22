@@ -24,6 +24,8 @@ Use this play when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. Report status per AISVS category, as described under Output Format.
+
 ### 1. Training Data Governance & Bias Management
 
 Assess the security and integrity of training data and bias management processes.
@@ -426,18 +428,20 @@ Prioritize findings based on severity and impact:
 
 ## Output Format
 
+No AISVS control list is bundled with this plugin. Report status per category, cite an AISVS control ID only if you read it from the published standard during this review, and never invent one. The result is not a compliance certification.
+
 ```markdown
 ## AI Security Verification Assessment: [Application Name]
 
 ### Executive Summary
-- **Overall AISVS Compliance**: [X/13 categories fully compliant]
+- **Category Status**: [n pass / n fail / n n/a / n not assessed, of 13]
 - **Critical Findings**: [Number of critical security gaps]
-- **Compliance Status**: [Ready/Not Ready for production]
 
 ### AISVS Category Assessment
 
 #### 1. Training Data Governance & Bias Management
-- **Status**: [Compliant/Partial/Non-Compliant]
+- **Status**: [pass | fail | n/a | not assessed]
+- **Evidence**: [What was observed, or what is missing]
 - **Key Findings**: [Summary of findings]
 - **Recommendations**: [Priority actions]
 
@@ -446,11 +450,11 @@ Prioritize findings based on severity and impact:
 ### Critical Security Gaps
 [High-priority findings requiring immediate attention]
 
-### Compliance Roadmap
-[Structured plan to achieve full AISVS compliance]
+### Remediation Roadmap
+[Structured plan to close the gaps]
 
-### Verification Evidence
-[Documentation supporting compliance claims]
+### Coverage
+[What was reviewed, and what was not assessed and why]
 
 ### Risk Assessment
 [Overall risk rating and justification]

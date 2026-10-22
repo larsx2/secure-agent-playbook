@@ -18,6 +18,8 @@ Use this skill when:
 
 ## Procedure
 
+Follow the [assessment contract](assessment-contract.md) first. Keep scanner verification off; validating a credential against a live provider is an active test that needs approval.
+
 ### 1. Run Automated Scanner
 
 Use available tools in order of preference:

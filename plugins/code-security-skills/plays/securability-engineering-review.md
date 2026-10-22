@@ -24,6 +24,8 @@ Run this play when:
 
 ## Steps
 
+Follow the [assessment contract](assessment-contract.md) first.
+
 ### 1. Establish scope and context
 
 Capture before scoring:
