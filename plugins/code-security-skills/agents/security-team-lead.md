@@ -40,6 +40,7 @@ Dispatch relevant specialist agents with clear scope instructions. Each agent sh
 - What files/directories to focus on
 - What the project does and its trust boundary
 - Any specific concerns the user raised
+- The review mode and revision (diff base..head, whole repository or targeted), and which operations the user approved beyond read-only (see `plays/assessment-contract.md`)
 
 ### Phase 3: Consolidation
 
@@ -58,6 +59,7 @@ Produce a single consolidated report following `templates/report.md` with:
 - Findings summary table (all findings from all agents, deduplicated)
 - Detailed findings grouped by domain (Code, Dependencies, API, Mobile, AI/Agent)
 - Cross-domain risk chains
+- Control gaps, unresolved questions, coverage and skipped operations from each agent
 - Overall securability score (SSEM)
 - Standards coverage table (OpenCRE cross-references)
 - Prioritized remediation roadmap
