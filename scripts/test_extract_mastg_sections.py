@@ -10,6 +10,7 @@ from extract_mastg_sections import (
     classify_test,
     resolve_masvs_to_tests,
     build_output_frontmatter,
+    absolutize_upstream_links,
 )
 
 
@@ -172,6 +173,22 @@ class TestBuildOutputFrontmatter(unittest.TestCase):
         self.assertEqual(fm["upstream_version"], "v1-fallback")
         self.assertIn("status_note", fm)
         self.assertIn("no V2 successor", fm["status_note"])
+
+
+class TestAbsolutizeUpstreamLinks(unittest.TestCase):
+    def test_relative_upstream_links_point_to_published_site(self):
+        path = "tests-beta/android/MASVS-NETWORK/MASTG-TEST-0242.md"
+        body = ("[a](../../../Document/0x04f-Testing-Network-Communication.md#mitm) "
+                "[b](../../../knowledge/android/MASVS-NETWORK/MASTG-KNOW-0015.md#pinning \"t\") "
+                "[c](https://example.org/x.md)")
+        self.assertEqual(absolutize_upstream_links(body, path), (
+            "[a](https://mas.owasp.org/MASTG/0x04f-Testing-Network-Communication/#mitm) "
+            "[b](https://mas.owasp.org/MASTG/knowledge/android/MASVS-NETWORK/MASTG-KNOW-0015/#pinning \"t\") "
+            "[c](https://example.org/x.md)"))
+
+    def test_links_escaping_the_upstream_repo_are_left_alone(self):
+        body = "[x](../../../../outside.md)"
+        self.assertEqual(absolutize_upstream_links(body, "tests/android/MASVS-X/T.md"), body)
 
 
 if __name__ == "__main__":

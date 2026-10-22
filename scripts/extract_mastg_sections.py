@@ -22,6 +22,7 @@ PRIVACY directory fallback:
 Usage:
     extract_mastg_sections.py <upstream-mastg-root> [<output-dir>]
 """
+import posixpath
 import re
 import sys
 from pathlib import Path
@@ -30,6 +31,10 @@ import yaml
 
 FRONTMATTER_RE = re.compile(r"\A---\n(.+?)\n---\n", re.DOTALL)
 TEST_ID_RE = re.compile(r"(MASTG-TEST-\d+)")
+# Relative links into the upstream repo (Document/, knowledge/) are dead once a
+# test is copied out of it; point them at the published site instead.
+UPSTREAM_LINK_RE = re.compile(r"\]\(((?:\.\./)+[^)\s#]+)\.md")
+MASTG_SITE = "https://mas.owasp.org/MASTG/"
 
 OUTPUT_KEYS_V1 = ("id", "title", "upstream_version", "upstream_path",
                   "upstream_tag", "platform", "covers_masvs",
@@ -47,6 +52,18 @@ def parse_test_frontmatter(raw: str) -> tuple[dict, str]:
     fm = yaml.safe_load(m.group(1)) or {}
     body = raw[m.end():]
     return fm, body
+
+
+def absolutize_upstream_links(body: str, upstream_path: str) -> str:
+    """Rewrite relative upstream .md links to mas.owasp.org pages."""
+    def replace(match):
+        target = posixpath.normpath(
+            posixpath.join(posixpath.dirname(upstream_path), match.group(1)))
+        if target.startswith("../"):
+            return match.group(0)
+        page = target.removeprefix("Document/")
+        return f"]({MASTG_SITE}{page}/"
+    return UPSTREAM_LINK_RE.sub(replace, body)
 
 
 def classify_test(test_id: str, fm: dict) -> dict:
@@ -217,6 +234,7 @@ def render_output_file(record: dict, mastg_root: Path, upstream_tag: str,
         covers_masvs=covers_masvs,
     )
     yaml_text = yaml.safe_dump(fm, sort_keys=False, allow_unicode=True)
+    body = absolutize_upstream_links(body, rel_path)
     return f"{test_id}.md", f"---\n{yaml_text}---\n{body}"
 
 
