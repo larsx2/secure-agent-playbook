@@ -30,9 +30,10 @@ class ReplayStore:
     """Offline stateful substitute for Redis SET NX EX."""
     def __init__(self):
         self.entries = {}
+        self.clock = None  # optional independent clock; defaults to time.time()
 
     def set(self, key, value, *, nx, ex):
-        now = time.time()
+        now = self.clock() if self.clock else time.time()
         if nx and self.entries.get(key, 0) > now:
             return False
         self.entries[key] = now + ex
@@ -102,14 +103,20 @@ class WebhookExampleTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.check()
 
-    def test_replay_rejected_until_window_plus_clock_skew_elapses(self):
+    def test_replay_rejected_on_node_lagging_by_max_clock_skew(self):
+        # The shared store keeps real time; receiver nodes may lag it by up to
+        # the documented 30s skew.
+        real_time = [self.now]
+        self.store.clock = lambda: real_time[0]
         self.request.headers['X-Webhook-Timestamp'] = str(self.now + 300)
         self.sign()
-        with patch('time.time', return_value=self.now):
+        with patch('time.time', return_value=self.now):  # accurate node
             self.assertTrue(self.check())
-        # A lagging node (30s skew) would still accept this timestamp at now+630.
-        with patch('time.time', return_value=self.now + 630):
-            with self.assertRaises(ValueError):
+        # 630s later, a node 30s behind still sees the timestamp as in-window,
+        # so only the shared nonce claim can reject the replay.
+        real_time[0] = self.now + 630
+        with patch('time.time', return_value=real_time[0] - 30):
+            with self.assertRaisesRegex(ValueError, 'Replayed'):
                 self.check()
 
     def test_retry_after_handler_failure_requires_fresh_nonce(self):
