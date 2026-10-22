@@ -24,7 +24,7 @@ Use this play when:
 
 ## Procedure
 
-Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Probes and red-team tests against a live system need approval.
+Follow the [assessment contract](assessment-contract.md) first. Probes and red-team tests against a live system need approval.
 
 ### Phase 1: Architecture Mapping & Threat Modeling
 

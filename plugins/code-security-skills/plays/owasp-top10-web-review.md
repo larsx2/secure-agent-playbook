@@ -21,7 +21,7 @@ Use this play when:
 
 ## Procedure
 
-Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. The testing approaches below are review questions and tests to propose; running them against a live application needs approval.
+Follow the [assessment contract](assessment-contract.md) first. The testing approaches below are review questions and tests to propose; running them against a live application needs approval.
 
 ### 1. Application Mapping
 

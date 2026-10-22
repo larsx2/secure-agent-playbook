@@ -1,6 +1,6 @@
 # Finding Template
 
-Use this structure for all security findings produced by skills. Review skills fill the classification, trace, prerequisites and validation fields as defined in `plays/assessment-contract.md`.
+Use this structure for all security findings produced by skills. Review skills fill Classification, Trace, Prerequisites and Validation as `plays/assessment-contract.md` defines.
 
 ```markdown
 ### [SEVERITY] Title
@@ -14,7 +14,7 @@ Use this structure for all security findings produced by skills. Review skills f
 - **Impact**: What an attacker can achieve (1-2 sentences)
 - **Evidence**: Code snippet, command output, or proof-of-concept
 - **Classification**: Confirmed vulnerability | Control gap | Unresolved question
-- **Trace**: Attacker-controlled input → transformations/defenses → sink, with file:line (or the setting/resolved version and where it takes effect)
+- **Trace**: Attacker-controlled input → transformations/defenses → sink, with file:line; for config/dependencies, the setting or resolved version and where it applies; for live tests, the request/response, target and time
 - **Prerequisites**: Attacker role/tenant, configuration and other conditions; mark each as verified or assumed
 - **Validation**: What was observed, what was not run (and why), and what runtime evidence is missing
 - **Remediation**: Specific fix with code example
@@ -31,7 +31,7 @@ GET https://www.opencre.org/rest/v1/standard/CWE/sectionid/{cwe-number}
 
 This returns the CRE ID and linked standards (ASVS, WSTG, NIST 800-53, cheat sheets). Include the CRE link in findings to give readers one-click access to all related standards and remediation guidance.
 
-OpenCRE mappings are optional external lookups, not bundled dependencies. Record unavailable lookups without inventing mappings and verify the returned standard version.
+OpenCRE mappings are optional external lookups, not bundled dependencies; the query sends only the CWE number, so it needs no approval. Record unavailable lookups without inventing mappings and verify the returned standard version.
 
 ## Severity Definitions
 

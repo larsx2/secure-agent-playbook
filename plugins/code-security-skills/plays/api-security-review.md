@@ -24,7 +24,7 @@ Use this play when:
 
 ## Procedure
 
-Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Request scripts, credential tests, scanners, internal-address probes and load tests below need approval for targets, accounts, data and limits.
+Follow the [assessment contract](assessment-contract.md) first. Request scripts, credential tests, scanners, internal-address probes and load tests below need approval for targets, accounts, data and limits.
 
 ### Phase 1: Discovery & Reconnaissance
 

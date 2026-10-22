@@ -23,7 +23,7 @@ Use this play when:
 
 ## Procedure
 
-Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Sending payloads to a live application needs the scope agreement listed under Inputs.
+Follow the [assessment contract](assessment-contract.md) first. Sending payloads to a live application needs the scope agreement listed under Inputs.
 
 ### 1. Scope and Input Surface Mapping
 
@@ -315,9 +315,9 @@ After testing, verify the presence of these controls (adapted from the Arcanum d
 ### Test Results Summary
 | Intent | Technique | Evasion | Surface | Result | Severity |
 |--------|-----------|---------|---------|--------|----------|
-| INT-01 | ARC-T04 | None | Chat | PASS (blocked) | — |
-| INT-01 | ARC-T04 | EVA-01 | Chat | FAIL (leaked) | HIGH |
-| INT-03 | ARC-T01 | None | Chat | FAIL (enumerated) | MEDIUM |
+| INT-01 | ARC-T04 | None | Chat | Blocked | — |
+| INT-01 | ARC-T04 | EVA-01 | Chat | Succeeded (leaked) | HIGH |
+| INT-03 | ARC-T01 | None | Chat | Succeeded (enumerated) | MEDIUM |
 
 ### Findings
 [Standard finding template for each successful injection]

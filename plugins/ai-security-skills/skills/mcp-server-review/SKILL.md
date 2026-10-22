@@ -8,7 +8,7 @@ license: CC-BY-4.0
 
 Audit an MCP server by following the full procedure in `plays/mcp-server-review.md`.
 
-Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines. Starting the server or calling its tools needs the user's approval.
+Follow `plays/assessment-contract.md` first. Starting the server or calling its tools needs the user's approval.
 
 ## Steps
 

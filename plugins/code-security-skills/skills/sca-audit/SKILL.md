@@ -8,7 +8,7 @@ license: CC-BY-4.0
 
 Scan dependencies for known CVEs by following the full procedure in `plays/sca-audit.md`.
 
-Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines. Scanners send dependency lists to advisory services and some resolve or build packages, so run them only with the user's approval.
+Follow `plays/assessment-contract.md` first. Scanners send dependency lists to advisory services and some resolve or build packages, so run them only with the user's approval.
 
 ## Steps
 
@@ -20,7 +20,7 @@ Before inspecting the target, follow `plays/assessment-contract.md`: start read-
    - `pip-audit -r requirements.txt --format=json` (Python)
    - `govulncheck ./...` (Go)
    - `trivy fs --format json --scanners vuln <path>` (multi-ecosystem)
-   - If no scanner is available or approval is not given, continue manifest/lockfile inventory and reachability work and report advisory matching as not assessed. Record the missing tooling and ask the user before installing a scanner (e.g., `brew install osv-scanner`); never report the result as a clean scan. For individual package triage, use [OSV.dev](https://osv.dev/list).
+   - If no scanner is available or approval is not given, continue manifest/lockfile inventory and reachability work and report advisory matching as not assessed. Record the missing tooling and ask the user before installing a scanner (e.g., `brew install osv-scanner`); never report the result as a clean scan. Looking up a CVE or GHSA ID on [OSV.dev](https://osv.dev/list) needs no approval; searching it by package name and version does.
 
 3. **Analyze Results** — For each vulnerability: determine reachability (is the vulnerable code path used?), check exploitability context (deployment matters), and identify fix availability (patch vs major version bump).
 

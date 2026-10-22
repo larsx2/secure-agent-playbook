@@ -18,7 +18,7 @@ Use this skill when:
 
 ## Procedure
 
-Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Keep scanner verification off; validating a credential against a live provider is an active test that needs approval.
+Follow the [assessment contract](assessment-contract.md) first. Keep scanner verification off; validating a credential against a live provider is an active test that needs approval.
 
 ### 1. Run Automated Scanner
 

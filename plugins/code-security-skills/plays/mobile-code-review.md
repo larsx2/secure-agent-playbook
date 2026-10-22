@@ -20,7 +20,7 @@ Do **not** run when only built artifacts (APK/IPA) are present — flag and stop
 
 ## Procedure
 
-Before reviewing, follow the [assessment contract](assessment-contract.md): start read-only, state the review mode, and classify findings as it defines. Keep the source-only and runtime caveats below.
+Follow the [assessment contract](assessment-contract.md) first. Keep the source-only and runtime caveats below.
 
 ### 1. Scope & Context
 

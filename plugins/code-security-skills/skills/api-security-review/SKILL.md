@@ -8,7 +8,7 @@ license: CC-BY-4.0
 
 Perform comprehensive API security assessment following `plays/api-security-review.md`.
 
-Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines. Requests, scanners and load tests against a live API need the user's approval.
+Follow `plays/assessment-contract.md` first. Requests, scanners and load tests against a live API need the user's approval.
 
 ## Steps
 

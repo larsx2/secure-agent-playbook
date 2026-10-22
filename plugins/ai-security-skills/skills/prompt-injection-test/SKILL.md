@@ -8,7 +8,7 @@ license: CC-BY-4.0
 
 Systematically test an LLM application's prompt injection defenses by following the full procedure in `plays/prompt-injection-testing.md`.
 
-Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines. Sending payloads to a live application is an active test: agree the target, accounts, intents and rate limits with the user first. Without approval, review prompts, configuration and code read-only.
+Follow `plays/assessment-contract.md` first. Sending payloads to a live application is an active test: agree the target, accounts, intents and rate limits with the user first. Without approval, review prompts, configuration and code read-only.
 
 > Based on the [Arcanum PI Taxonomy](https://github.com/Arcanum-Sec/arc_pi_taxonomy) by Jason Haddix (Arcanum Information Security). CC BY 4.0.
 

@@ -1,7 +1,7 @@
 ---
 name: security-team-lead
 description: Coordinates a team of specialist security agents for comprehensive, parallel security assessments. Use when you want a full-scope security review that covers code, dependencies, APIs, and AI/agent risks simultaneously.
-tools: Read, Grep, Glob, Bash
+tools: Read, Grep, Glob, Bash, Agent
 model: sonnet
 skills: securability-engineering-review
 ---
@@ -33,14 +33,16 @@ Before dispatching agents, scope the target:
    - **Mobile review**: Relevant if native mobile artifacts exist — Android (AndroidManifest.xml, build.gradle[.kts], src/main/java|kotlin), iOS (Info.plist, *.xcodeproj, *.xcworkspace, *.swift|.m|.mm, Podfile, *.entitlements), or cross-platform shells (pubspec.yaml, package.json with react-native — flag partial coverage)
    - **AI security**: Relevant if the project includes CLAUDE.md, MCP server code, LLM integrations, or agent configurations
 3. Skip agents whose focus area is not present in the target
+4. Follow `plays/assessment-contract.md`: ask the user once, in one message, for the review mode and the non-read-only operations they approve for each specialist (scanner runs, live tests, installs). If you cannot ask the user, use only the approvals your caller supplied.
 
 ### Phase 2: Dispatch
 
-Dispatch relevant specialist agents with clear scope instructions. Each agent should know:
+Dispatch relevant specialist agents with clear scope instructions. Dispatch works only when you run as the main session or team lead; a subagent cannot start other agents, so if dispatch is unavailable, run the relevant skills yourself in sequence. Each agent should know:
 - What files/directories to focus on
 - What the project does and its trust boundary
 - Any specific concerns the user raised
-- The review mode and revision (diff base..head, whole repository or targeted), and which operations the user approved beyond read-only (see `plays/assessment-contract.md`)
+- The review mode and revision (diff base..head, whole repository or targeted)
+- The operations the user approved beyond read-only, listed explicitly as user-approved; specialists cannot ask the user and skip anything not listed
 
 ### Phase 3: Consolidation
 

@@ -7,7 +7,7 @@ description: Comprehensive LLM security assessment against OWASP Top 10 for LLM 
 
 Comprehensive evaluation of LLM applications against OWASP Top 10 for LLM Applications 2025. Follow the detailed procedure in `plays/llm-risk-assess.md`.
 
-Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines. Automated probes and red-team tests (steps 2 and 4) send payloads to a live system and need the user's approval.
+Follow `plays/assessment-contract.md` first. Automated probes and red-team tests (steps 2 and 4) send payloads to a live system and need the user's approval.
 
 ## Steps
 

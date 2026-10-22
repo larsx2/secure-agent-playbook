@@ -8,7 +8,7 @@ license: CC-BY-4.0
 
 Review native Android and iOS source code for security vulnerabilities by following the full procedure in `plays/mobile-code-review.md`.
 
-Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines.
+Follow `plays/assessment-contract.md` first.
 
 ## Steps
 

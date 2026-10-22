@@ -8,7 +8,7 @@ license: CC-BY-4.0
 
 Evaluate an AI agent's security posture by following the full procedure in `plays/agent-security-audit.md`.
 
-Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines.
+Follow `plays/assessment-contract.md` first.
 
 ## Steps
 

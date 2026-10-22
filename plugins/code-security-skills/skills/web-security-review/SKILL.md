@@ -8,7 +8,7 @@ license: CC-BY-4.0
 
 Review web applications against all 10 OWASP Top 10 risks by following the full procedure in `plays/owasp-top10-web-review.md`.
 
-Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines. Active tests against a running application need the user's approval.
+Follow `plays/assessment-contract.md` first. Active tests against a running application need the user's approval.
 
 ## Steps
 

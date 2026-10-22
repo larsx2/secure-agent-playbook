@@ -8,7 +8,7 @@ license: CC-BY-4.0
 
 Review infrastructure-as-code for security risks by following the full procedure in `plays/iac-security-review.md`.
 
-Before inspecting the target, follow `plays/assessment-contract.md`: start read-only, state the review mode (diff, whole repository or targeted), and classify each finding as it defines. Commands that initialize, plan or apply infrastructure, or that contact cloud accounts, need the user's approval.
+Follow `plays/assessment-contract.md` first. Commands that initialize, plan or apply infrastructure, or that contact cloud accounts, need the user's approval.
 
 ## Steps
 
