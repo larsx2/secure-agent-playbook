@@ -98,9 +98,15 @@ Document all auth mechanisms in use:
    // Insecure: localStorage (XSS accessible)
    localStorage.setItem('jwt', token);
    
-   // More secure: httpOnly cookie
-   document.cookie = "jwt=" + token + "; HttpOnly; Secure; SameSite=Strict";
+   // Server-side Express response: only Set-Cookie can create HttpOnly cookies.
+   // __Host- prefix (ASVS 3.3.1 L1 / 3.3.3 L2) requires Secure, Path=/ and no Domain.
+   res.cookie('__Host-jwt', token, {
+     httpOnly: true, secure: true, sameSite: 'strict', path: '/',
+     maxAge: 15 * 60 * 1000  // match the token's exp; omit only for session cookies
+   });
    ```
+
+   Browser JavaScript cannot set `HttpOnly`. Keep the cookie lifetime no longer than the token's `exp`, and add CSRF defenses for the application; HttpOnly prevents cookie reads, not all actions by injected scripts.
 
 **Testing Checklist:**
 - [ ] Test algorithm confusion (change alg to "none")
@@ -229,13 +235,14 @@ Document all auth mechanisms in use:
    - Attempt to access with User B's credentials
 3. **Batch Testing**: Test if batch endpoints filter by ownership
 4. **File Access**: Test file download endpoints with different IDs
-5. **IDOR Automation**:
+5. **IDOR Automation** (authorized test environment only):
    ```bash
-   # Use Burp Intruder or custom script
-   # Iterate through IDs and check for 200 responses
-   for i in {1..1000}; do
-     curl -H "Authorization: Bearer $TOKEN" \
-          "https://api.example.com/orders/$i" | grep -q "order_id" && echo "Found: $i"
+   # Request only the fixture objects User B created in step 2, using User A's token.
+   # Do not enumerate ID ranges: that touches real users' data. A 200 is a candidate,
+   # not proof of BOLA; compare against B's baseline (see Automated Testing below).
+   for id in $USER_B_ORDER_IDS; do
+     curl -s -o /dev/null -w "$id %{http_code}\n" \
+          -H "Authorization: Bearer $USER_A_TOKEN" "$API_BASE/orders/$id"
    done
    ```
 
@@ -315,9 +322,10 @@ def get_order(order_id, user):
    - Test token revocation
 
 3. **Password Policy**:
-   - Test minimum length (should be 12+)
-   - Test complexity requirements
-   - Check common password blocking
+   - Minimum length: at least 15 characters when the password is the only factor; 8 is acceptable only when the password is always paired with another factor (NIST SP 800-63B-4). ASVS 6.2.1 sets 8 as the L1 floor and strongly recommends 15
+   - Verify no required character classes/composition rules (6.2.5), no truncation (6.2.8), paste and password managers allowed (6.2.7), and support for at least 64 characters at L2 (6.2.9)
+   - Check common-password screening (6.2.4), context-specific words (6.2.11, L2) and breached-password screening (6.2.12, L2)
+   - Verify no forced periodic rotation (6.2.10, L2); force a change only on evidence of compromise
    - Verify secure password reset flow
 
 4. **Multi-Factor Authentication**:
@@ -335,14 +343,22 @@ def login(request):
     # Login logic
     pass
 
-# Strong password validation
+# Password validation: validate_password() only runs the validators configured in
+# AUTH_PASSWORD_VALIDATORS (empty = no checks; startproject default = 8 chars, no
+# breach check). Configure them explicitly:
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+     'OPTIONS': {'min_length': 15}},  # single-factor passwords; 8 only if MFA is always required
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    # Add a breached-password validator (e.g. k-anonymity lookup) for ASVS 6.2.12.
+    # No composition rules (ASVS 6.2.5).
+]
+
 from django.contrib.auth.password_validation import validate_password
 
-def validate_user_password(password):
-    try:
-        validate_password(password)
-    except ValidationError as e:
-        raise e
+def validate_user_password(password, user=None):
+    validate_password(password, user=user)  # raises ValidationError
 
 # Secure JWT configuration
 JWT_SETTINGS = {
@@ -817,54 +833,16 @@ class PurchaseForm(forms.Form):
    ```
 
 **Remediation:**
-```python
-import ipaddress
-import re
-from urllib.parse import urlparse
 
-def is_internal_ip(ip_str):
-    """Check if IP is internal/private"""
-    try:
-        ip = ipaddress.ip_address(ip_str)
-        return ip.is_private or ip.is_loopback or ip.is_reserved
-    except ValueError:
-        return False
+Use a framework HTTP client/egress proxy that enforces destination policy on the actual connection, backed by network rules denying internal and metadata-service access. Do not advertise a resolve-then-return-URL validator as DNS pinning.
 
-def validate_url(url):
-    """Validate URL for SSRF prevention"""
-    parsed = urlparse(url)
-    
-    # Allowlist approach (recommended)
-    allowed_hosts = ['api.trusted.com', 'cdn.trusted.com']
-    if parsed.hostname not in allowed_hosts:
-        raise ValidationError("URL not in allowlist")
-    
-    # Blocklist approach (supplementary)
-    blocked_schemes = ['file', 'ftp', 'gopher', 'dict']
-    if parsed.scheme in blocked_schemes:
-        raise ValidationError("Scheme not allowed")
-    
-    # Resolve and check IP
-    import socket
-    try:
-        ip = socket.gethostbyname(parsed.hostname)
-        if is_internal_ip(ip):
-            raise ValidationError("Internal IPs not allowed")
-    except socket.gaierror:
-        raise ValidationError("Could not resolve hostname")
-    
-    return url
+- Prefer fixed service destinations. Where URLs are required, parse once with the client's URL semantics; allowlist HTTPS, exact hosts and permitted ports, rejecting credentials and ambiguous forms.
+- Resolve and evaluate **all** IPv4/IPv6 addresses, including mapped forms; reject disallowed/private, loopback, link-local and reserved destinations.
+- Bind the outbound connection to a vetted destination while preserving the original hostname for TLS SNI and certificate verification. Re-resolving the original URL after validation reintroduces a DNS-rebinding/TOCTOU gap.
+- Disable redirects, or apply the complete destination/connection policy at every hop. Bound response size, timeout and redirect count.
+- Fail closed on DNS/policy errors. Confirm network/proxy enforcement in deployment evidence; source-only URL checks do not establish it.
 
-# Alternative: Use a dedicated SSRF protection library
-# pip install ssrf-protect
-from ssrf_protect import SSRFProtect
-
-@SSRFProtect()
-def fetch_url(request):
-    url = request.GET.get('url')
-    # Safe to fetch
-    return requests.get(url)
-```
+See the [OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html) for framework/network-specific implementation choices.
 
 #### API8: Security Misconfiguration
 
@@ -878,9 +856,10 @@ def fetch_url(request):
 
 1. **CORS Misconfiguration**
    ```http
-   Access-Control-Allow-Origin: *  # Too permissive
-   Access-Control-Allow-Credentials: true  # Dangerous combination
+   Access-Control-Allow-Origin: *
+   Access-Control-Allow-Credentials: true
    ```
+   Browsers reject credentialed cross-origin reads with wildcard origin; this combination is not proof of data theft. An exploitable credentialed read requires an attacker-controlled origin explicitly allowed/reflected, credentials actually sent, and sensitive response data readable in the browser. Also flag `Access-Control-Allow-Origin: null` with credentials: sandboxed iframes and `data:` documents send `Origin: null`, so any site can satisfy it. `*` without credentials still lets any site read responses the victim's browser can reach, so it exposes intranet-only or IP-restricted endpoints. CORS is not authentication and does not by itself prevent CSRF.
 
 2. **Verbose Error Messages**
    ```json
@@ -1146,36 +1125,47 @@ def safe_deserialize(data):
     
     return pickle.loads(data)
 
-# Webhook Security
+# Webhook Security: this example protocol signs timestamp + nonce + raw body.
+# Every delivery attempt (including retries) carries a fresh nonce and timestamp.
+# For a provider integration, use its documented signature format/SDK instead.
 import hmac
 import hashlib
+import json
+import re
 import time
 
-def verify_webhook(request):
-    # Verify signature
-    signature = request.headers.get('X-Webhook-Signature')
-    expected = hmac.new(
-        WEBHOOK_SECRET,
-        request.body,
-        hashlib.sha256
-    ).hexdigest()
-    
+def verify_webhook(request, secret, replay_store, sender_id):
+    """replay_store is a shared Redis client; sender_id is trusted configuration."""
+    window = 300          # accepted timestamp drift, seconds
+    max_clock_skew = 30   # max skew between receiver nodes/store; set for your deployment
+    timestamp = request.headers.get('X-Webhook-Timestamp', '')
+    nonce = request.headers.get('X-Webhook-Nonce', '')
+    signature = request.headers.get('X-Webhook-Signature', '')
+    if not re.fullmatch(r'[0-9]{1,12}', timestamp):
+        raise ValueError("Invalid webhook")
+    if not re.fullmatch(r'[A-Za-z0-9_-]{16,128}', nonce):
+        raise ValueError("Invalid webhook")
+    if not re.fullmatch(r'[0-9a-f]{64}', signature):
+        raise ValueError("Invalid webhook")
+    # Unambiguous framing; sender must use this exact serialization.
+    prefix = json.dumps([timestamp, nonce], separators=(',', ':')).encode()
+    expected = hmac.new(secret, prefix + b'\n' + request.body, hashlib.sha256).hexdigest()
     if not hmac.compare_digest(signature, expected):
-        raise ValueError("Invalid signature")
-    
-    # Check timestamp (prevent replay)
-    timestamp = int(request.headers.get('X-Webhook-Timestamp'))
-    if abs(time.time() - timestamp) > 300:  # 5 minutes
-        raise ValueError("Request too old")
-    
-    # Check nonce (prevent replay)
-    nonce = request.headers.get('X-Webhook-Nonce')
-    if nonce in used_nonces:
-        raise ValueError("Nonce already used")
-    used_nonces.add(nonce)
-    
+        raise ValueError("Invalid webhook")
+    if abs(time.time() - int(timestamp)) > window:
+        raise ValueError("Expired webhook")
+    key = 'webhook:' + hashlib.sha256(
+        json.dumps([sender_id, nonce], separators=(',', ':')).encode()
+    ).hexdigest()
+    # Atomic shared claim. Retain it for the full +/-window acceptance span plus
+    # inter-node clock skew, so no node can still accept the same nonce later.
+    # Store failure propagates (fail closed); never fall back to process memory.
+    if not replay_store.set(key, 'used', nx=True, ex=2 * window + max_clock_skew + 1):
+        raise ValueError("Replayed webhook")
     return True
 ```
+
+Bound request bodies before verification; keep sender secrets in a secret store. Verify before any side effect. The nonce is claimed before processing, so a byte-identical resend is rejected as a replay even if the first attempt's handler failed: the sender must re-sign each retry with a fresh nonce and timestamp. Replay rejection is not business idempotency: include an event ID in the signed body that stays constant across retries, and persist event IDs and processing outcomes transactionally so a retry after a failure completes the work exactly once.
 
 ### Phase 4: Automated Security Testing
 
@@ -1222,25 +1212,23 @@ pm.test("Security headers present", function () {
 ```python
 import requests
 
-def test_bola(base_url, token, user_a_id, user_b_id):
-    """Test for Broken Object Level Authorization"""
-    
-    # Get User A's token
+def test_bola(base_url, token, user_b_id):
+    """Collect candidates using explicitly authorized cross-user fixtures."""
     headers = {"Authorization": f"Bearer {token}"}
-    
-    # Try to access User B's resources
     endpoints = [
         f"/api/users/{user_b_id}",
         f"/api/users/{user_b_id}/orders",
         f"/api/orders?user_id={user_b_id}",
     ]
-    
     for endpoint in endpoints:
-        response = requests.get(f"{base_url}{endpoint}", headers=headers)
-        if response.status_code == 200:
-            print(f"BOLA VULNERABILITY: {endpoint}")
-            print(f"User A can access User B's data!")
+        response = requests.get(
+            f"{base_url}{endpoint}", headers=headers, timeout=10,
+            allow_redirects=False,
+        )
+        print(f"{endpoint}: HTTP {response.status_code}; policy/body review required")
 ```
+
+Before confirming BOLA, establish that User A's role/tenant is forbidden by the intended policy from reading User B's specific fixture object. Retrieve it as B for a baseline, then compare A's response for the same protected identifier and private fields (or verify the unauthorized state change). A `200` may contain a public profile, empty filtered list or error envelope. A denial for one request is not proof of authorization coverage. Record missing policy/object evidence as unresolved, not vulnerable or passed.
 
 **Rate Limit Testing**:
 ```python
@@ -1417,7 +1405,7 @@ Resources:
 #### Authentication Mechanisms
 | Mechanism | Implementation | Security Rating |
 |-----------|---------------|-----------------|
-| JWT | HS256, 15min expiry | ✅ Secure |
+| JWT | HS256, 15min expiry | ❌ Accepts alg=none (API2) |
 | OAuth 2.0 | PKCE enabled | ✅ Secure |
 
 #### Endpoint Breakdown
@@ -1432,7 +1420,7 @@ Resources:
 | OWASP API Ref | Risk | Severity | Status | Evidence |
 |--------------|------|----------|--------|----------|
 | API1 | BOLA | HIGH | Finding | /api/orders/{id} lacks ownership check |
-| API2 | Broken Auth | MEDIUM | Finding | JWT alg=none accepted |
+| API2 | Broken Auth | CRITICAL | Finding | JWT alg=none accepted |
 | API3 | BOPA | HIGH | Finding | Mass assignment on /api/users |
 | API4 | Resource Consumption | LOW | Finding | No rate limiting on search |
 | API5 | BFLA | MEDIUM | Finding | Admin endpoints accessible to users |
@@ -1452,13 +1440,12 @@ Resources:
   GET /api/fetch?url=http://169.254.169.254/latest/meta-data/iam/security-credentials/
   Response: 200 OK with IAM role credentials
   ```
-- **Remediation**: Implement URL allowlist, block internal IPs
+- **Remediation**: Route fetches through an egress proxy or HTTP client that enforces the destination policy on the actual connection (all resolved addresses, no redirects to disallowed hosts), and block metadata-service access at the network layer; see API7 remediation above. URL checks alone are insufficient
 
 ### High Findings
 [Additional findings...]
 
 ### Positive Security Controls
-- ✅ JWT tokens use strong signing (RS256)
 - ✅ HTTPS enforced with TLS 1.2+
 - ✅ Security headers present
 - ✅ Input validation on all endpoints
@@ -1488,14 +1475,15 @@ Resources:
 
 ### References
 - OWASP API Security Top 10 (2023)
-- OWASP ASVS v5.0 - V13: API and Web Service
+- OWASP ASVS v5.0 - V4: API and Web Service
 - OWASP Testing Guide: WSTG-APIT
 ```
 
 ## OWASP References
 
 - **OWASP API Security Top 10 (2023)** — [owasp.org/API-Security](https://owasp.org/API-Security/)
-- **OWASP ASVS v5.0** — V13: API and Web Service Verification
+- **OWASP ASVS v5.0** — V4: API and Web Service
+- Bundled API controls: `data/asvs/V4.1.md`–`V4.4.md`; select related authentication, session and authorization controls using `data/asvs/README.md`
 - **OWASP Testing Guide** — WSTG-APIT: API Testing
 - **OWASP Cheat Sheet Series**:
   - REST Security
