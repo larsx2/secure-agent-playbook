@@ -1228,7 +1228,7 @@ def test_bola(base_url, token, user_b_id):
         print(f"{endpoint}: HTTP {response.status_code}; policy/body review required")
 ```
 
-Before confirming BOLA, establish that User A's role/tenant is forbidden by the intended policy from reading User B's specific fixture object. Retrieve it as B for a baseline, then compare A's response for the same protected identifier and private fields (or verify the unauthorized state change). A `200` may contain a public profile, empty filtered list or error envelope. A denial for one request is not proof of authorization coverage. Record missing policy/object evidence as unresolved, not vulnerable or passed.
+Before confirming BOLA, establish that User A's role/tenant is forbidden by the intended policy from reading User B's specific fixture object. Retrieve it as B for a baseline, then compare A's response for the same protected identifier and private fields (or verify the unauthorized state change). A `200` may contain a public profile, empty filtered list or error envelope. A denial for one request is not proof of authorization coverage. If the policy or object ownership cannot be established, report the endpoint as needing confirmation, not as vulnerable or as passing.
 
 **Rate Limit Testing**:
 ```python
@@ -1442,6 +1442,16 @@ Resources:
   ```
 - **Remediation**: Route fetches through an egress proxy or HTTP client that enforces the destination policy on the actual connection (all resolved addresses, no redirects to disallowed hosts), and block metadata-service access at the network layer; see API7 remediation above. URL checks alone are insufficient
 
+#### [CRITICAL] API2: JWT `alg=none` Accepted
+- **Location**: Token verification middleware (`jwt.verify()` called without an `algorithms` option)
+- **Impact**: Anyone can forge an unsigned token for any user or role, bypassing authentication on every protected endpoint
+- **Evidence**:
+  ```
+  Header {"alg":"none","typ":"JWT"}, payload {"sub":"1","role":"admin"}, empty signature
+  GET /api/users/me with that token → 200 OK as user 1 (admin)
+  ```
+- **Remediation**: Pass an explicit algorithm allowlist that excludes `none` to every verify call and pin the expected key (ASVS 9.1.1, 9.1.2); upgrade JWT libraries with known verification advisories
+
 ### High Findings
 [Additional findings...]
 
@@ -1453,19 +1463,20 @@ Resources:
 ### Remediation Roadmap
 
 #### Immediate (Critical/High - 1 week)
-1. Fix SSRF vulnerability (API7)
-2. Implement BOLA checks on all object endpoints (API1)
-3. Disable debug mode (API8)
+1. Reject unsigned JWTs with an explicit algorithm allowlist (API2)
+2. Fix SSRF vulnerability (API7)
+3. Implement BOLA checks on all object endpoints (API1)
+4. Disable debug mode (API8)
 
 #### Short-term (High/Medium - 1 month)
-4. Implement comprehensive rate limiting (API4)
-5. Add field-level authorization (API3)
-6. Secure admin endpoints (API5)
+5. Implement comprehensive rate limiting (API4)
+6. Add field-level authorization (API3)
+7. Secure admin endpoints (API5)
 
 #### Long-term (Medium/Low - 3 months)
-7. Implement API inventory management (API9)
-8. Add webhook signature validation (API10)
-9. Conduct regular security testing
+8. Implement API inventory management (API9)
+9. Add webhook signature validation (API10)
+10. Conduct regular security testing
 
 ### Testing Artifacts
 - [ ] OWASP ZAP scan results

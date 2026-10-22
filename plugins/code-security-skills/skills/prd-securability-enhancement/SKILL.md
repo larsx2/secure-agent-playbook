@@ -222,14 +222,14 @@ This trips the "Reset flow gaps" pattern in the gap table — so the missing req
 **Data**: Email address (PII), password (credential), reset token
 **Trust Boundaries**: browser → public API; API → email provider; API → credential store
 
-**ASVS Mapping**: V6.4.3 (L2), V6.2.1 (L1), V6.2.4 (L1), V6.2.5 (L1), V6.2.12 (L2), V16.3.1 (L2), V16.4 (L2), V2.4.1 (L2), V2.2.1 (L1), V6.3.8 (L3 escalation)
+**ASVS Mapping**: V6.4.3 (L2), V6.2.1 (L1), V6.2.4 (L1), V6.2.5 (L1), V6.2.12 (L2), V16.3.1 (L2), V16.2.5 (L2), V16.1.1 (L2), V2.4.1 (L2), V2.2.1 (L1), V6.3.8 (L3 escalation)
 
 **Updated Requirements**:
 - User can request a password reset by entering an account email at `/reset`; the process preserves any enabled MFA (V6.4.3).
 - The system returns equivalent responses for existing and nonexistent accounts (V6.3.8, explicitly adopted above the L2 baseline).
 - Product policy: CSPRNG-generated high-entropy reset tokens are single-use, expire within 10 minutes, and are stored as hashes; this policy supports secure reset (V6.4.3) rather than quoting a password-security requirement.
 - New passwords have at least 15 characters because the password is the only login factor (NIST SP 800-63B-4 requires 15 for single-factor passwords; ASVS V6.2.1 sets an 8-character floor and strongly recommends 15), no required character classes (V6.2.5), and common/breached-password screening (V6.2.4, V6.2.12).
-- Authentication operations are logged (V16.3.1); product policy includes reset issuance/redemption and outcome with appropriate redaction and retention (V16.4).
+- Authentication operations are logged (V16.3.1); product policy includes reset issuance/redemption and outcome. Reset tokens and passwords are never logged (V16.2.5), and log retention is documented in the logging inventory (V16.1.1).
 - Reset requests are rate-limited per account and source IP (V2.4.1); thresholds below are product policy.
 - Validate email input at the service boundary (V2.2.1); apply the account system's consistent identity-normalization rules, not transformations of the password.
 

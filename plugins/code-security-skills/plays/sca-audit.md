@@ -13,7 +13,7 @@ Use this skill when:
 ## Inputs
 
 - Project root directory (must contain dependency manifests and/or lockfiles)
-- (Optional) Presentation threshold — comprehensive mode includes all severities, unknown severity and unresolved coverage; a user-selected threshold only filters the detailed presentation, with lower-severity/suppressed counts and rationale retained
+- (Optional) Severity threshold — filters only the detailed findings list; the report always gives counts for every severity, including unknown, and states what was filtered out and why
 - (Optional) Ignore list — CVEs to defer (with documented justification, owner and review date)
 
 ## Procedure
@@ -64,7 +64,7 @@ Use available tools in order of preference:
    trivy fs --format json --scanners vuln <project_path>
    ```
 
-If no suitable scanner is available, continue the manifest/lockfile inventory and source reachability review. Mark advisory matching **not-assessed**, record unsupported ecosystems, unresolved versions and missing tooling/database evidence, and ask the user to install a scanner (for example `brew install osv-scanner`, or `npm audit --json` for Node.js projects). Do not present manual inventory as a clean vulnerability scan or install tools without asking.
+If no suitable scanner is available, continue the manifest/lockfile inventory and source reachability review. Report advisory matching as not assessed, record unsupported ecosystems, unresolved versions and missing tooling/database evidence, and ask the user to install a scanner (for example `brew install osv-scanner`, or `npm audit --json` for Node.js projects). Do not present manual inventory as a clean vulnerability scan or install tools without asking.
 
 For manual triage of individual packages, use the [OSV.dev vulnerability database](https://osv.dev/list) to search by package name or CVE.
 
@@ -111,7 +111,7 @@ Beyond CVEs, flag:
 - **Scanner used**: [tool name and version]
 - **Vulnerabilities found**: [X critical, Y high, Z medium, W low]
 - **Coverage gaps**: [unscanned components, unresolved versions/reachability, unavailable scanner/advisory database]
-- **Presentation filters / deferrals**: [threshold, omitted counts by severity, rationale, owner and review date]
+- **Filtered or deferred findings**: [threshold, omitted counts by severity, rationale, owner and review date]
 
 ### Critical & High Findings
 [Standard finding template for each, sorted by severity]

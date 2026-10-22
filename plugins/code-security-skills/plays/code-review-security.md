@@ -104,7 +104,7 @@ Related weaknesses map to different 2025 categories; cite the category of the sp
 - Default credentials or configurations
 - Unnecessary features enabled (debug endpoints, admin panels)
 - Missing security headers
-- Overly permissive CORS
+- Overly permissive CORS (CWE-942, A02:2025; also described under A01:2025, so cite both)
 - Directory listing enabled
 - Missing rate limiting on sensitive endpoints
 

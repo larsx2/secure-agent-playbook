@@ -13,7 +13,7 @@ Review web applications against all 10 OWASP Top 10 risks by following the full 
 1. **Application Mapping** — Identify framework/language, deployment model (monolith/microservices), trust boundaries (internet/internal/local), data sensitivity (PII, financial, health), and authentication mechanisms.
 
 2. **Assess Each OWASP Top 10 Risk**:
-   - **A01 Broken Access Control** — Missing authz checks, IDOR, tenant isolation, privilege escalation, CORS and SSRF
+   - **A01 Broken Access Control** — Missing authz checks, IDOR, tenant isolation, privilege escalation, CORS (also A02 via CWE-942) and SSRF
    - **A02 Security Misconfiguration** — Unsafe defaults, unnecessary features, exposed services and missing hardening
    - **A03 Software Supply Chain Failures** — Vulnerable dependencies, build/publish permissions, provenance and registry trust
    - **A04 Cryptographic Failures** — Weak algorithms, missing TLS, hardcoded keys and improper key management

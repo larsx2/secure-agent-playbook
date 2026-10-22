@@ -1,7 +1,7 @@
 # Security Assessment Report: SCA Audit Sample
 
 **Date**: 2026-10-22
-**Assessor**: Claude Code (agent-security-playbook)
+**Assessor**: Illustrative (OSV.dev queries)
 **Scope**: Illustrative Node.js/Express application — the four direct dependencies listed below
 **Skills Used**: `sca-audit`
 
@@ -17,10 +17,10 @@ The four example dependencies match 11 published advisories (4 HIGH, 6 MEDIUM, 1
 
 | # | Severity (highest advisory) | Title | CWE | OWASP Ref | Status |
 |---|----------|-------|-----|-----------|--------|
-| 1 | HIGH | lodash 4.17.20: 5 advisories (code/command injection, prototype pollution, ReDoS) | CWE-94, CWE-77, CWE-1321, CWE-1333 | A03:2025 | Open |
-| 2 | HIGH | jsonwebtoken 8.5.1: 3 advisories (token verification weaknesses) | CWE-327, CWE-347, CWE-287 | A03:2025 | Open |
+| 1 | HIGH | lodash 4.17.20: 5 advisories (code/command injection, prototype pollution, ReDoS) | CWE-94, CWE-77, CWE-1321, CWE-1333, CWE-400 | A03:2025 | Open |
+| 2 | HIGH | jsonwebtoken 8.5.1: 3 advisories (token verification weaknesses) | CWE-327, CWE-347, CWE-287, CWE-1259 | A03:2025 | Open |
 | 3 | HIGH | semver 6.3.0: ReDoS | CWE-1333 | A03:2025 | Open |
-| 4 | MEDIUM | express 4.18.2: 2 advisories (open redirect, redirect XSS) | CWE-601, CWE-79 | A03:2025 | Open |
+| 4 | MEDIUM | express 4.18.2: 2 advisories (open redirect, redirect XSS) | CWE-601, CWE-1286, CWE-79 | A03:2025 | Open |
 
 Severity is the highest published advisory severity per package. Application severity depends on the reachability conditions in each finding.
 
@@ -29,7 +29,7 @@ Severity is the highest published advisory severity per package. Application sev
 ### [HIGH] lodash 4.17.20: 5 advisories
 
 - **ID**: NDC-2026-001
-- **CWE**: CWE-94, CWE-77, CWE-1321, CWE-1333 (per advisory below)
+- **CWE**: CWE-94, CWE-77, CWE-1321, CWE-1333, CWE-400 (per advisory below)
 - **CVE**: CVE-2021-23337, CVE-2026-4800, CVE-2020-28500, CVE-2025-13465, CVE-2026-2950
 - **OpenCRE**: Not looked up (optional external lookup)
 - **OWASP Ref**: A03:2025 Software Supply Chain Failures
@@ -53,7 +53,7 @@ Severity is the highest published advisory severity per package. Application sev
 ### [HIGH] jsonwebtoken 8.5.1: 3 advisories
 
 - **ID**: NDC-2026-002
-- **CWE**: CWE-327, CWE-347, CWE-287 (per advisory below)
+- **CWE**: CWE-327, CWE-347, CWE-287, CWE-1259 (per advisory below)
 - **CVE**: CVE-2022-23539, CVE-2022-23540, CVE-2022-23541
 - **OpenCRE**: Not looked up (optional external lookup)
 - **OWASP Ref**: A03:2025 Software Supply Chain Failures
@@ -91,7 +91,7 @@ Severity is the highest published advisory severity per package. Application sev
 ### [MEDIUM] express 4.18.2: 2 advisories
 
 - **ID**: NDC-2026-004
-- **CWE**: CWE-601, CWE-79
+- **CWE**: CWE-601, CWE-1286, CWE-79
 - **CVE**: CVE-2024-29041, CVE-2024-43796
 - **OpenCRE**: Not looked up (optional external lookup)
 - **OWASP Ref**: A03:2025 Software Supply Chain Failures
@@ -104,7 +104,7 @@ Severity is the highest published advisory severity per package. Application sev
   | [GHSA-rv95-896h-c2vc](https://github.com/advisories/GHSA-rv95-896h-c2vc) / CVE-2024-29041 | MEDIUM | Malformed user-controlled URLs reach `res.location()` / `res.redirect()` and bypass the app's allowlist | 4.19.2 |
   | [GHSA-qw6h-vgh9-j6wx](https://github.com/advisories/GHSA-qw6h-vgh9-j6wx) / CVE-2024-43796 | LOW | Untrusted input reaches `res.redirect()` | 4.20.0 |
 
-- **Remediation**: Upgrade to 4.20.0 or later, then re-scan: express pins its own dependencies (see Out of Scope). Validate redirect targets against an allowlist (ASVS 3.7.2).
+- **Remediation**: Upgrade to the latest 4.x release (4.22.3 on the report date). 4.20.0 fixes both express advisories, but its pinned dependencies still carry 9 advisories (body-parser, cookie, path-to-regexp, qs, send). A tree resolved from express 4.22.3 (68 packages) had no OSV matches on the report date. Re-scan the lockfile after upgrading. Validate redirect targets against an allowlist (ASVS 3.7.2).
 - **Confidence**: HIGH that the version is affected; reachability not assessed
 
 ---
@@ -135,7 +135,7 @@ OpenCRE mappings are omitted rather than guessed; resolve them through the OpenC
 ## Recommendations
 
 1. **High priority**: Upgrade `lodash` (≥ 4.18.0) and `semver` (≥ 6.3.1); both are drop-in within their major versions.
-2. **High priority**: Upgrade `express` to ≥ 4.20.0 and re-scan its pinned dependencies.
+2. **High priority**: Upgrade `express` to the latest 4.x (4.22.3 on the report date) and re-scan the resolved lockfile.
 3. **Plan migration**: Upgrade `jsonwebtoken` to ≥ 9.0.0 (breaking changes). Until then, confirm every `jwt.verify()` call passes an explicit `algorithms` list and a non-empty key.
 4. **Verify**: Search the code for the affected functions listed in each finding to set application-level severity.
 5. **Process**: Run an SCA scanner (`osv-scanner`, `npm audit`) in CI. Make sure its advisory database excludes withdrawn advisories, or flags them as withdrawn.

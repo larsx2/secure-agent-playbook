@@ -48,7 +48,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **IDOR (Insecure Direct Object References)** — Can User A access User B's data by changing IDs in URLs/parameters?
 - [ ] **Privilege escalation** — Can regular users access admin functions? Can users elevate their own privileges?
 - [ ] **Path traversal** — Can file paths include `../` to escape intended directories?
-- [ ] **CORS misconfiguration** — Overly permissive CORS allowing cross-origin attacks
+- [ ] **CORS misconfiguration** — Overly permissive CORS allowing cross-origin attacks (described under A01:2025; CWE-942 is mapped to A02:2025, so cite both)
 - [ ] **Forced browsing** — Can unauthenticated users access protected resources by guessing URLs?
 - [ ] **JWT token issues** — Missing signature validation, algorithm confusion attacks
 - [ ] **Broken function-level authorization** — Different auth requirements for UI vs API endpoints
@@ -96,7 +96,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 
 #### A03: Software Supply Chain Failures
 
-> Mapped CWEs: CWE-447, CWE-477, CWE-1035, CWE-1104, CWE-1329, CWE-1357, CWE-1395
+> Mapped CWEs: CWE-477, CWE-1035, CWE-1104, CWE-1329, CWE-1357, CWE-1395
 >
 > Includes vulnerable/outdated components and compromise of dependencies, build systems and distribution.
 

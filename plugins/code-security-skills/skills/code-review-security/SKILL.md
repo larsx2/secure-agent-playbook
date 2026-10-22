@@ -18,7 +18,7 @@ Review code for security vulnerabilities by following the full procedure in `pla
    - **Authorization (A01:2025)** — Missing authz checks, IDOR, horizontal/vertical privilege escalation, path traversal, CSRF
    - **Cryptography (A04:2025)** — Weak algorithms, hardcoded keys, missing encryption, custom crypto
    - **Data Exposure (A01:2025; related CWEs map to A02/A07/A09/A10)** — Over-broad responses, sensitive data in errors/logs, credentials in code, debug mode
-   - **Misconfiguration (A02:2025)** — Default credentials, permissive CORS, missing security headers
+   - **Misconfiguration (A02:2025)** — Default credentials, permissive CORS (also A01), missing security headers
    - **Deserialization & Integrity (A08:2025)** — Untrusted deserialization, missing integrity checks, unsigned cookies/tokens
    - **Supply Chain (A03:2025)** — Dependency, build, registry and artifact trust
    - **Insecure Design (A06:2025)** — Business invariants, workflows, concurrency and anti-automation
