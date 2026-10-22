@@ -1,0 +1,1 @@
+../../../plays/mcp-server-review.md

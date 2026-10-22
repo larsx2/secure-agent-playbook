@@ -1,0 +1,1 @@
+../../../templates/finding.md
