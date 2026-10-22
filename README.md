@@ -82,7 +82,7 @@ npx skills add https://github.com/OWASP/secure-agent-playbook --skill code-revie
 
 Each skill directory includes its plays, templates and reference data as relative symlinks to the canonical files, and the Skills CLI copies the link targets on install. A local clone works too: `npx skills add /path/to/secure-agent-playbook --skill code-review-security --copy`. Resource paths are relative to the installed skill root; plays opened directly use the plugin root. Repo-root research data (such as `data/opencre/`) and upstream-only MASTG entries are not bundled.
 
-> **Windows:** Git checks symlinks out as small text files unless symlink support is on (`core.symlinks=false` is the Windows default), and a direct install then copies those path stubs instead of the content. Either enable symlinks before cloning or installing (turn on Developer Mode, then `git config --global core.symlinks true`), or use the per-skill release zips above. `scripts/package_skills.py --check` reports this case.
+> **Windows:** Git checks symlinks out as small text files unless symlink support is on (`core.symlinks=false` is the Windows default), and a direct install then copies those path stubs instead of the content. Turn on Developer Mode and run `git config --global core.symlinks true` before cloning or installing (clone again if you already have a checkout), or use the per-skill release zips above. `scripts/package_skills.py --check` reports this case.
 
 **Local development** — To test from a local clone instead of GitHub:
 ```
