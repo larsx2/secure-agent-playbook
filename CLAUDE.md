@@ -67,7 +67,7 @@ When reporting security findings, use this structure:
 - **Remediation**: Specific fix with code example
 ```
 
-Use `data/opencre/README.md` for common CWE-to-CRE mappings, or query the OpenCRE API: `GET https://www.opencre.org/rest/v1/standard/CWE/sectionid/{number}`
+In this repository, use `data/opencre/README.md` for common CWE-to-CRE mappings (it is not bundled into the plugins, where OpenCRE is an optional external lookup), or query the OpenCRE API: `GET https://www.opencre.org/rest/v1/standard/CWE/sectionid/{number}`
 
 Severity levels: CRITICAL, HIGH, MEDIUM, LOW, INFORMATIONAL
 

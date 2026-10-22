@@ -30,7 +30,7 @@
 
 ## Standards Coverage
 
-OpenCRE cross-references for all findings (auto-populated via `data/opencre/`):
+OpenCRE cross-references are optional external lookups at https://www.opencre.org, not bundled dependencies. Verify the returned standard version:
 
 | CRE ID | Requirement | CWE | ASVS | WSTG | NIST 800-53 | Findings |
 |--------|-------------|-----|------|------|-------------|----------|

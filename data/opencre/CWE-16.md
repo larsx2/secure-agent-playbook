@@ -1,7 +1,7 @@
 ---
 title: "CWE-16 Configuration"
 cwe_id: "CWE-16"
-owasp_top10: "A05:2021 Security Misconfiguration"
+owasp_top10: "A02:2025 Security Misconfiguration"
 opencre_mappings:
   - cre_id: "180-488"
     cre_name: "Proper Configuration for all applications and frameworks"

@@ -1,6 +1,6 @@
 # Play: OWASP Top 10 Web Security Review
 
-Review web applications against the OWASP Top 10 for Web Applications (2021), producing actionable findings with severity ratings and remediation guidance.
+Review web applications against the [OWASP Top 10 for Web Applications (2025)](https://owasp.org/Top10/2025/), producing actionable findings with severity ratings and remediation guidance. API Top 10:2023 and LLM/agent standards are separate taxonomies.
 
 ## Trigger Conditions
 
@@ -40,7 +40,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 
 #### A01: Broken Access Control
 
-> CWE-200, CWE-201, CWE-352, CWE-639
+> Example mapped CWEs: CWE-200, CWE-201, CWE-352, CWE-639, CWE-918
 
 **What to Look For:**
 
@@ -60,11 +60,72 @@ Document the attack surface: entry points, data flows, trust boundaries.
 4. Test privilege escalation paths (user → admin)
 5. Verify authorization on every object access, not just initial authentication
 
+##### SSRF (CWE-918; included in A01:2025)
+
+- Identify user-influenced server fetches, webhook destinations, proxies and import URLs.
+- Check destination and scheme allowlists, egress restrictions, all IPv4/IPv6 DNS answers, redirects and parser ambiguities.
+- Verify that the actual connection uses an approved destination: resolving a hostname then fetching the original URL permits DNS rebinding/TOCTOU.
+- Review cloud metadata/internal-service protections.
+
 ---
 
-#### A02: Cryptographic Failures
+#### A02: Security Misconfiguration
 
-> CWE-261, CWE-296, CWE-310, CWE-319, CWE-326, CWE-327, CWE-916
+> Example mapped CWEs: CWE-16, CWE-489, CWE-611, CWE-614, CWE-942, CWE-1004
+
+**What to Look For:**
+
+- [ ] **Default configurations** — Default passwords, default admin accounts, sample applications deployed
+- [ ] **Verbose error messages** — Stack traces, internal paths, SQL errors exposed to users
+- [ ] **Missing security headers** — No `X-Content-Type-Options`, `X-Frame-Options`, `Content-Security-Policy`, `Strict-Transport-Security`
+- [ ] **Unnecessary features** — Unused ports open, unnecessary services running, debug endpoints enabled
+- [ ] **Directory listing** — Web servers showing directory contents
+- [ ] **Cloud misconfigurations** — Exposed S3 buckets, open security groups, public databases
+- [ ] **Missing hardening** — Default SSL/TLS settings, unnecessary HTTP methods enabled
+- [ ] **XML parser configuration** — External entities and unbounded entity expansion enabled on untrusted input (XXE)
+
+**Testing Approach:**
+1. Review configuration files (nginx.conf, .htaccess, application.yml)
+2. Check for default credentials and accounts
+3. Verify security headers using tools or manual inspection
+4. Test error handling (trigger errors, check responses)
+5. Scan for unnecessary open ports and services
+6. Check cloud configurations for public exposure
+
+---
+
+#### A03: Software Supply Chain Failures
+
+> Mapped CWEs: CWE-447, CWE-477, CWE-1035, CWE-1104, CWE-1329, CWE-1357, CWE-1395
+>
+> Includes vulnerable/outdated components and compromise of dependencies, build systems and distribution.
+
+**What to Look For:**
+
+- [ ] **Unpatched dependencies** — Known CVEs in libraries (see sca-audit.md)
+- [ ] **Unsupported software** — End-of-life frameworks, operating systems, databases
+- [ ] **Outdated software** — Old framework versions, unpatched components
+- [ ] **Missing SBOM** — No inventory of software components
+- [ ] **Unused dependencies** — Dead code increasing attack surface
+- [ ] **Transitive vulnerabilities** — Vulnerabilities in dependencies of dependencies
+- [ ] **Supply chain risks** — Typosquatting, malicious packages, compromised dependencies
+- [ ] **Build and publication trust** — Untrusted pull requests reaching release credentials, overprivileged CI tokens, mutable action/image references
+- [ ] **Provenance and registries** — Dependency confusion, unreviewed install scripts, missing artifact origin/integrity verification, compromised maintainers or registries
+- [ ] **Response readiness** — Component ownership, update/revocation process and ability to identify affected deployments
+
+**Testing Approach:**
+1. Run SCA scanner (osv-scanner, npm audit, pip-audit)
+2. Review dependency files (package.json, requirements.txt, etc.)
+3. Check for end-of-life components
+4. Verify dependency update processes
+5. Review lockfiles for reproducible builds
+6. Trace source → dependency resolution → build → artifact → deployment; review permissions and provenance at each boundary. Advisory scans alone cannot assess this category.
+
+---
+
+#### A04: Cryptographic Failures
+
+> Example mapped CWEs: CWE-261, CWE-296, CWE-319, CWE-326, CWE-327, CWE-916
 
 **What to Look For:**
 
@@ -86,9 +147,9 @@ Document the attack surface: entry points, data flows, trust boundaries.
 
 ---
 
-#### A03: Injection
+#### A05: Injection
 
-> CWE-74, CWE-78, CWE-79, CWE-89, CWE-91, CWE-564, CWE-943
+> Example mapped CWEs: CWE-74, CWE-78, CWE-79, CWE-89, CWE-91, CWE-564
 
 **What to Look For:**
 
@@ -113,9 +174,9 @@ Document the attack surface: entry points, data flows, trust boundaries.
 
 ---
 
-#### A04: Insecure Design
+#### A06: Insecure Design
 
-> CWE-73, CWE-183, CWE-209, CWE-213, CWE-235, CWE-256, CWE-257, CWE-266, CWE-269, CWE-280, CWE-434, CWE-444, CWE-501, CWE-522, CWE-697, CWE-799, CWE-807, CWE-840, CWE-841, CWE-927, CWE-1021, CWE-1173, CWE-1174, CWE-1233
+> Example mapped CWEs: CWE-269, CWE-362, CWE-434, CWE-501, CWE-799, CWE-841
 
 **What to Look For:**
 
@@ -137,60 +198,13 @@ Document the attack surface: entry points, data flows, trust boundaries.
 
 ---
 
-#### A05: Security Misconfiguration
+#### A07: Authentication Failures
 
-> CWE-2, CWE-11, CWE-13, CWE-15, CWE-16, CWE-209, CWE-250, CWE-260, CWE-312, CWE-497, CWE-538, CWE-540, CWE-541, CWE-547, CWE-611, CWE-614, CWE-756, CWE-942
-
-**What to Look For:**
-
-- [ ] **Default configurations** — Default passwords, default admin accounts, sample applications deployed
-- [ ] **Verbose error messages** — Stack traces, internal paths, SQL errors exposed to users
-- [ ] **Missing security headers** — No `X-Content-Type-Options`, `X-Frame-Options`, `Content-Security-Policy`, `Strict-Transport-Security`
-- [ ] **Unnecessary features** — Unused ports open, unnecessary services running, debug endpoints enabled
-- [ ] **Directory listing** — Web servers showing directory contents
-- [ ] **Outdated software** — Old framework versions, unpatched components
-- [ ] **Cloud misconfigurations** — Exposed S3 buckets, open security groups, public databases
-- [ ] **Missing hardening** — Default SSL/TLS settings, unnecessary HTTP methods enabled
-
-**Testing Approach:**
-1. Review configuration files (nginx.conf, .htaccess, application.yml)
-2. Check for default credentials and accounts
-3. Verify security headers using tools or manual inspection
-4. Test error handling (trigger errors, check responses)
-5. Scan for unnecessary open ports and services
-6. Check cloud configurations for public exposure
-
----
-
-#### A06: Vulnerable and Outdated Components
-
-> CWE-937, CWE-1035, CWE-1104
+> Example mapped CWEs: CWE-287, CWE-307, CWE-384, CWE-521, CWE-613, CWE-798
 
 **What to Look For:**
 
-- [ ] **Unpatched dependencies** — Known CVEs in libraries (see sca-audit.md)
-- [ ] **Unsupported software** — End-of-life frameworks, operating systems, databases
-- [ ] **Missing SBOM** — No inventory of software components
-- [ ] **Unused dependencies** — Dead code increasing attack surface
-- [ ] **Transitive vulnerabilities** — Vulnerabilities in dependencies of dependencies
-- [ ] **Supply chain risks** — Typosquatting, malicious packages, compromised dependencies
-
-**Testing Approach:**
-1. Run SCA scanner (osv-scanner, npm audit, pip-audit)
-2. Review dependency files (package.json, requirements.txt, etc.)
-3. Check for end-of-life components
-4. Verify dependency update processes
-5. Review lockfiles for reproducible builds
-
----
-
-#### A07: Identification and Authentication Failures
-
-> CWE-287, CWE-288, CWE-290, CWE-294, CWE-295, CWE-297, CWE-300, CWE-302, CWE-304, CWE-306, CWE-307, CWE-346, CWE-384, CWE-521, CWE-613, CWE-620, CWE-640, CWE-798, CWE-940, CWE-1216
-
-**What to Look For:**
-
-- [ ] **Weak password policy** — No minimum length, no complexity requirements, common passwords allowed
+- [ ] **Password policy** — Single-factor passwords need at least 15 characters; 8 is acceptable only when a password is always combined with another factor (NIST SP 800-63B-4). ASVS 6.2.1 sets 8 as the L1 floor and strongly recommends 15. No required character classes/composition rules (6.2.5); paste and password managers allowed (6.2.7); no forced periodic rotation (6.2.10, L2); common, context-specific and breached-password screening (6.2.4, 6.2.11, 6.2.12).
 - [ ] **Credential stuffing** — No protection against automated login attempts using breached credentials
 - [ ] **Brute force** — No rate limiting or account lockout on authentication endpoints
 - [ ] **Session vulnerabilities** — Predictable session IDs, session fixation, missing HttpOnly/Secure flags
@@ -200,7 +214,7 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **JWT issues** — None algorithm allowed, weak signing keys, missing expiration
 
 **Testing Approach:**
-1. Test password requirements and complexity
+1. Review length (single-factor vs MFA), blocklists and support for long passwords; verify absence of required character classes, truncation, paste blocking and forced periodic rotation
 2. Attempt credential stuffing with known breached credentials
 3. Test for brute force protection (rate limiting, CAPTCHA, lockout)
 4. Analyze session handling (cookies, tokens, expiration)
@@ -209,9 +223,9 @@ Document the attack surface: entry points, data flows, trust boundaries.
 
 ---
 
-#### A08: Software and Data Integrity Failures
+#### A08: Software or Data Integrity Failures
 
-> CWE-345, CWE-353, CWE-426, CWE-494, CWE-502, CWE-565, CWE-784, CWE-829, CWE-830, CWE-915
+> Example mapped CWEs: CWE-345, CWE-353, CWE-494, CWE-502, CWE-829, CWE-915
 
 **What to Look For:**
 
@@ -219,22 +233,21 @@ Document the attack surface: entry points, data flows, trust boundaries.
 - [ ] **Unsigned updates** — Software updates without integrity verification
 - [ ] **CI/CD attacks** — Unprotected build pipelines, compromised build agents
 - [ ] **Dependency confusion** — Internal packages with names matching public packages
-- [ ] **Unsigned commits** — No signature verification on code commits
+- [ ] **Artifact authenticity** — Updates or executable resources accepted without authenticating their source and integrity
 - [ ] **Tamper-evident logs** — No integrity protection for audit logs
-- [ ] **XML external entities (XXE)** — XML parsers with external entity processing enabled
 
 **Testing Approach:**
 1. Search for deserialization functions with user-controlled input
 2. Verify update mechanisms include signature verification
 3. Review CI/CD configurations for security controls
-4. Check for XXE vulnerabilities in XML parsing
+4. Check the trust boundary for third-party executable resources and plugins
 5. Verify integrity checks on critical data
 
 ---
 
-#### A09: Security Logging and Monitoring Failures
+#### A09: Security Logging and Alerting Failures
 
-> CWE-117, CWE-223, CWE-532, CWE-778, CWE-1175
+> Mapped CWEs: CWE-117, CWE-221, CWE-223, CWE-532, CWE-778
 
 **What to Look For:**
 
@@ -252,29 +265,27 @@ Document the attack surface: entry points, data flows, trust boundaries.
 3. Search for sensitive data in log statements
 4. Verify log storage security and retention
 5. Assess monitoring and alerting capabilities
+6. Confirm alert routing, actionable thresholds and response ownership with operational evidence; log statements alone do not prove alerts work.
 
 ---
 
-#### A10: Server-Side Request Forgery (SSRF)
+#### A10: Mishandling of Exceptional Conditions
 
-> CWE-918
+> Example mapped CWEs: CWE-209, CWE-248, CWE-460, CWE-476, CWE-636, CWE-754
 
 **What to Look For:**
 
-- [ ] **Unvalidated URL parameters** — User-supplied URLs fetched by the server without validation
-- [ ] **Internal service access** — Can attacker reach internal services (metadata endpoints, admin panels, databases)?
-- [ ] **Cloud metadata endpoints** — Access to `169.254.169.254` (AWS, Azure, GCP metadata services)
-- [ ] **File protocol access** — Can `file://` URLs be used to read local files?
-- [ ] **Redirect following** — Server follows redirects to attacker-controlled URLs
-- [ ] **DNS rebinding** — Time-of-check vs time-of-use vulnerabilities
-- [ ] **URL parsing inconsistencies** — Differences between URL parsers (e.g., `@` handling)
+- [ ] **Fail-open controls** — Authorization, validation or fraud checks bypassed on exceptions, dependency failures or timeouts
+- [ ] **Partial state changes** — Failed transactions leaving permissions, balances or workflow state inconsistent
+- [ ] **Resource exhaustion** — Unbounded input, queues, recursion, retries, file handles or memory allocation
+- [ ] **Unhandled errors** — Crashes, sensitive diagnostics, swallowed errors or insecure fallback defaults
+- [ ] **Concurrency and recovery** — Races, missing cleanup, repeated side effects and recovery paths that violate business invariants
 
 **Testing Approach:**
-1. Identify all endpoints accepting URLs from users
-2. Test for internal service access (localhost, private IPs)
-3. Attempt cloud metadata endpoint access
-4. Test alternative protocols (file://, gopher://, dict://)
-5. Test for URL parsing bypasses (unicode, encoding, case variations)
+1. Trace malformed input and failure propagation through handlers, middleware and downstream calls.
+2. Check bounded resource use, timeouts, cancellation, cleanup and secure rollback.
+3. Review fallback paths against the same authorization and validation rules as success paths.
+4. Identify operational evidence needed for dependency outages and recovery (for example fault-injection or load-test results).
 
 ---
 
@@ -342,16 +353,16 @@ For each identified vulnerability:
 ### Risk Matrix
 | OWASP Ref | Risk | Severity | Status |
 |-----------|------|----------|--------|
-| A01 | Broken Access Control | HIGH | Finding |
-| A02 | Cryptographic Failures | MEDIUM | Finding |
-| A03 | Injection | CRITICAL | Finding |
-| A04 | Insecure Design | LOW | Finding |
-| A05 | Security Misconfiguration | MEDIUM | Finding |
-| A06 | Vulnerable Components | HIGH | Finding |
-| A07 | Auth Failures | HIGH | Finding |
-| A08 | Integrity Failures | N/A | N/A |
-| A09 | Logging Failures | MEDIUM | Finding |
-| A10 | SSRF | N/A | N/A |
+| A01 | Broken Access Control (including SSRF) | [evidence-based] | [status] |
+| A02 | Security Misconfiguration | [evidence-based] | [status] |
+| A03 | Software Supply Chain Failures | [evidence-based] | [status] |
+| A04 | Cryptographic Failures | [evidence-based] | [status] |
+| A05 | Injection | [evidence-based] | [status] |
+| A06 | Insecure Design | [evidence-based] | [status] |
+| A07 | Authentication Failures | [evidence-based] | [status] |
+| A08 | Software or Data Integrity Failures | [evidence-based] | [status] |
+| A09 | Security Logging and Alerting Failures | [evidence-based] | [status] |
+| A10 | Mishandling of Exceptional Conditions | [evidence-based] | [status] |
 
 ### Findings
 [Standard finding template for each identified risk]
@@ -367,8 +378,9 @@ For each identified vulnerability:
 
 ## OWASP References
 
-- **OWASP Top 10 for Web Applications (2021)** — [owasp.org/Top10](https://owasp.org/Top10/)
+- **OWASP Top 10 for Web Applications (2025)** — [owasp.org/Top10/2025](https://owasp.org/Top10/2025/)
 - **OWASP ASVS v5.0** — Application Security Verification Standard
+- Bundled ASVS routing and requirements: `data/asvs/README.md`, `data/asvs/`
 - **OWASP Testing Guide (WSTG)** — Web Security Testing Guide
 - **OWASP Cheat Sheet Series** — Language and framework-specific guidance
 - **OWASP Proactive Controls** — Secure development practices
